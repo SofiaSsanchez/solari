@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Solari · Stock disponible</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;--bg:#000;--card:#0b0b0b;--gold:#a68a5b;--gold2:#c9ae7c;--tx:#f2eee6;--mut:#9a948a;--line:rgba(166,138,91,.55);
+padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{scroll-padding-top:120px}
+body{margin:0;background:radial-gradient(ellipse at 15% 0,#1a1712 0,#000 45%) fixed;color:var(--tx);font:14px/1.5 Montserrat,system-ui,sans-serif}
+h1,h2,h3,.serif{font-family:'Libre Baskerville',Georgia,serif;font-weight:400}
+header{text-align:center;padding:34px 16px 14px}
+header h1{font-size:clamp(38px,9vw,64px);margin:0;color:var(--gold);letter-spacing:.02em}
+header p{margin:6px 0 0;letter-spacing:.28em;text-transform:uppercase;font-size:11px;color:var(--tx)}
+.orn{color:var(--gold);opacity:.7;letter-spacing:1em;font-size:12px;margin-top:10px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(0,0,0,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:10px 14px}
+.links{display:flex;gap:8px;justify-content:center;white-space:nowrap}
+.bg{display:none;width:100%;align-items:center;justify-content:space-between;background:none;border:0;color:var(--gold2);font:500 12px Montserrat,sans-serif;letter-spacing:.16em;text-transform:uppercase;padding:6px 0;cursor:pointer}
+.bg .ic{display:inline-block;width:22px;height:14px;position:relative;border-top:2px solid var(--gold2);border-bottom:2px solid var(--gold2);margin-right:12px;vertical-align:middle;transition:.2s}
+.bg .ic:after{content:"";position:absolute;left:0;right:0;top:4px;border-top:2px solid var(--gold2)}
+.bg .cur{flex:1;text-align:left;color:var(--tx)}
+.bg .car{transition:.2s;font-size:10px}
+nav.burger .bg{display:flex}
+nav.burger .links{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;gap:0;background:rgba(0,0,0,.98);border-bottom:1px solid var(--line);padding:6px 14px 14px;max-height:calc(100vh - 120px);overflow:auto;white-space:normal}
+nav.burger.open .links{display:flex}
+nav.burger.open .car{transform:rotate(180deg)}
+nav.burger .chip{border:0;border-bottom:1px solid #1e1e1e;text-align:left;padding:15px 4px;font-size:12px}
+nav.burger .chip.on{background:none;color:var(--gold);border-bottom-color:var(--gold)}
+nav.burger .chip.on:after{content:" ✦"}
+.chip{flex:none;background:none;border:1px solid var(--line);color:var(--gold2);font:500 11px Montserrat,sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:8px 14px;cursor:pointer}
+.chip.on{background:var(--gold);color:#000;border-color:var(--gold)}
+main{max-width:1100px;margin:0 auto;padding:18px 14px 110px}
+.sec{margin:26px 0 12px;text-align:center}
+.sec h2{margin:0;font-size:30px;color:var(--gold)}
+.sec span{font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column}
+.card img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#111}
+.card .b{padding:10px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card h3{font-size:12.5px;margin:0;line-height:1.35;flex:1}
+.pr{font-size:12px;color:var(--gold2)}
+.btn{background:var(--gold);color:#000;border:0;font:500 11px Montserrat,sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:10px;cursor:pointer;width:100%}
+.btn.o{background:none;border:1px solid var(--gold);color:var(--gold2)}
+.btn:disabled{opacity:.35;cursor:default}
+.card.out img{filter:grayscale(1) brightness(.5)}
+.qty{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--gold)}
+.qty button{background:none;border:0;color:var(--gold2);font-size:18px;width:38px;height:34px;cursor:pointer}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:8;background:var(--gold);color:#000;border:0;padding:14px 20px;font:500 12px Montserrat,sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;box-shadow:0 6px 24px #000}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:20;display:none;align-items:flex-end;justify-content:center}
+.ov.on{display:flex}
+.sh{background:#0a0a0a;border:1px solid var(--line);width:100%;max-width:520px;max-height:92%;overflow:auto;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px))}
+.sh h2{margin:0 0 4px;color:var(--gold);font-size:24px}
+.steps{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);margin-bottom:14px}
+.it{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #222}
+.it img{width:54px;height:54px;object-fit:cover;border:1px solid var(--line)}
+.it div{flex:1;font-size:12.5px}
+.it .qty{width:96px}.it .qty button{width:30px;height:28px}
+.opt{display:block;border:1px solid var(--line);padding:14px;margin:8px 0;cursor:pointer}
+.opt.on{border-color:var(--gold2);background:rgba(166,138,91,.16)}
+.opt input{display:none}
+textarea,input[type=text]{width:100%;background:#000;color:var(--tx);border:1px solid var(--line);padding:10px;font:14px Montserrat,sans-serif;margin-top:6px}
+label.l{display:block;margin-top:14px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2)}
+.row{display:flex;gap:8px;margin-top:18px}
+.tot{display:flex;justify-content:space-between;padding:14px 0 0;font-size:15px}
+.x{float:right;background:none;border:0;color:var(--gold2);font-size:26px;cursor:pointer;line-height:1}
+.msg{background:#000;border:1px dashed var(--line);padding:12px;font-size:12.5px;color:var(--mut);margin-top:12px;white-space:pre-wrap}
+.err{color:#e0796b;font-size:12px;margin-top:8px}
+.empty{text-align:center;color:var(--mut);padding:26px 0}
+
+.hero{text-align:center;max-width:680px;margin:14px auto 0}
+.hero h2{font-size:clamp(26px,6vw,38px);color:var(--gold);margin:0 0 12px}
+.hero p{color:var(--tx);margin:0 auto 18px;max-width:560px}
+.promo{display:inline-block;border:1px solid var(--gold);color:var(--gold2);padding:10px 18px;letter-spacing:.16em;text-transform:uppercase;font-size:11px;margin:4px 0 18px}
+.cta{display:inline-block;width:auto;padding:14px 30px}
+.h3{font-family:'Libre Baskerville',Georgia,serif;color:var(--gold);font-size:26px;text-align:center;margin:46px 0 6px}
+.sub{text-align:center;color:var(--mut);font-size:12px;margin:0 0 18px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:26px}
+.tile{position:relative;border:1px solid var(--line);background:#000;padding:0;cursor:pointer;aspect-ratio:1/1;overflow:hidden}
+.tile img{width:100%;height:100%;object-fit:cover;opacity:.55;transition:.25s}
+.tile:hover img{opacity:.8}
+.tile span{position:absolute;left:0;right:0;bottom:0;padding:22px 6px 9px;background:linear-gradient(transparent,#000);color:var(--gold2);font:500 11px Montserrat,sans-serif;letter-spacing:.14em;text-transform:uppercase;text-align:center}
+.pasos{max-width:640px;margin:0 auto;display:grid;gap:12px}
+.paso{display:flex;gap:14px;border:1px solid var(--line);background:var(--card);padding:14px}
+.paso .n{flex:none;width:34px;height:34px;border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Libre Baskerville',serif;color:var(--gold2)}
+.paso h4{margin:0 0 4px;font:700 14px 'Libre Baskerville',serif;color:var(--gold2)}
+.paso p{margin:0;color:var(--tx);font-size:13px}
+.puntos{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.punto{border:1px solid var(--line);background:var(--card);padding:16px;text-align:center}
+.punto h4{margin:0 0 6px;font:700 15px 'Libre Baskerville',serif;color:var(--gold2)}
+.punto p{margin:2px 0;font-size:13px}.punto .h{color:var(--mut);font-size:12px}
+.fin{text-align:center;color:var(--mut);font-size:12px;max-width:520px;margin:34px auto 0}
+.badge{float:right;font-size:10px;letter-spacing:.14em;background:var(--gold);color:#000;padding:3px 8px}
+.tot.cash{color:var(--gold2)}
+.note{font-size:11.5px;color:var(--mut);margin-top:6px}
+</style></head><body>
+<header><h1 onclick="go('inicio')" style="cursor:pointer">Solari</h1><p>Stock disponible</p><div class="orn">✦ ✝ ✦</div></header>
+<nav id="nav"></nav>
+<main id="main"></main>
+<button class="fab" id="fab">Mi carrito · <span id="cnt">0</span></button>
+<div class="ov" id="ov"><div class="sh" id="sh"></div></div>
+
+<script src="productos.js"></script>
+<script>
+const IMG = new Proxy({}, {get:(_,id)=>`img/${id}.jpg`});
+let cart = {}, cat = "inicio", step = 0, pago = null, ent = null, nota = "", dir = "";
+try { cart = JSON.parse(localStorage.getItem("solari_cart") || "{}"); } catch(e){}
+const $ = s => document.querySelector(s), byId = id => PRODUCTS.find(p => p.id === id);
+const fmt = n => "$" + n.toLocaleString("es-AR");
+const save = () => { try { localStorage.setItem("solari_cart", JSON.stringify(cart)); } catch(e){} };
+const count = () => Object.values(cart).reduce((a,b)=>a+b,0);
+function setQ(id,d){ const p=byId(id), q=(cart[id]||0)+d; if(q<=0) delete cart[id]; else cart[id]=Math.min(q,p.s); save(); draw(); if($("#ov").classList.contains("on")&&step===0) modal(); }
+
+let menuOpen=false;
+function drawNav(){
+  const all=[["inicio","Inicio"],["todo","Todo"],...CATS.map(c=>[c.k,c.t])], nav=$("#nav");
+  const cur=(all.find(a=>a[0]===cat)||all[0])[1];
+  nav.innerHTML=`<button class="bg" id="bg" aria-expanded="false" aria-controls="links"><span class="ic"></span><span class="cur">${cur}</span><span class="car">▼</span></button>
+  <div class="links" id="links">${all.map(([k,t])=>`<button class="chip ${cat===k?"on":""}" data-c="${k}">${t}</button>`).join("")}</div>`;
+  $("#links").onclick=e=>{ const c=e.target.dataset.c; if(c){cat=c; menuOpen=false; draw(); scrollTo({top:0});} };
+  $("#bg").onclick=()=>{ menuOpen=!menuOpen; fitNav(); };
+  fitNav();
+}
+function fitNav(){
+  const nav=$("#nav"), links=$("#links"); if(!nav||!links) return;
+  nav.classList.remove("burger","open");
+  const cs=getComputedStyle(nav), avail=nav.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
+  const burger=links.scrollWidth>avail+1;
+  nav.classList.toggle("burger",burger);
+  nav.classList.toggle("open",burger&&menuOpen);
+  const b=$("#bg"); if(b) b.setAttribute("aria-expanded",burger&&menuOpen);
+}
+addEventListener("resize",fitNav);
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(fitNav);
+document.addEventListener("click",e=>{ if(menuOpen&&!e.target.closest("#nav")){menuOpen=false;fitNav();} });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&menuOpen){menuOpen=false;fitNav();} });
+function card(p){
+  const q=cart[p.id]||0, out=p.s<=0;
+  return `<div class="card ${out?"out":""}"><img loading="lazy" src="${IMG[p.id]}" alt="${p.n}"><div class="b"><h3>${p.n}</h3>
+  <div class="pr">${PR(p)!=null?fmt(PR(p)):"Consultar precio"}</div>
+  ${out?`<button class="btn" disabled>Agotado</button>`: q?`<div class="qty"><button onclick="setQ('${p.id}',-1)">−</button><span>${q}</span><button onclick="setQ('${p.id}',1)" ${q>=p.s?"disabled":""}>+</button></div>`:`<button class="btn" onclick="setQ('${p.id}',1)">Agregar</button>`}
+  </div></div>`;
+}
+function go(k){ cat=k; menuOpen=false; draw(); scrollTo({top:0}); }
+function home(){
+  const pagos=PAGOS.map(o=>o.n).join(", ");
+  const pasos=[
+    ["Elegí tus productos","Entrá al stock, recorré las categorías y tocá <b>Agregar</b> en lo que te guste. Si querés más de uno, sumá con + y −."],
+    ["Revisá tu carrito","Tocá <b>Mi carrito</b> (abajo a la derecha) para ver lo que elegiste, cambiar cantidades, dejar aclaraciones (por ejemplo “con alitas extra”) y ver el total."],
+    ["Elegí cómo pagar",`Podés pagar con ${pagos}.`+(DESC_EFECTIVO>0?` <b>Pagando en efectivo tenés ${DESC_EFECTIVO}% de descuento.</b>`:"")],
+    ["Elegí cómo recibirlo","Envío a domicilio o entrega en un punto de encuentro en La Plata (abajo están todos)."],
+    ["Enviá tu pedido por WhatsApp","Se abre WhatsApp con tu pedido ya escrito, solo tenés que enviarlo. Yo te confirmo la disponibilidad y coordinamos el pago y la entrega."]
+  ];
+  const tiles=CATS.map(c=>{const f=PRODUCTS.find(p=>p.cat===c.k&&!p.off); return f?`<button class="tile" onclick="go('${c.k}')"><img src="${IMG[f.id]}" alt=""><span>${c.t}</span></button>`:"";}).join("");
+  return `<section class="hero"><h2 class="serif">Te doy la bienvenida a Solari</h2>
+    <p>Acá vas a encontrar todo mi stock disponible: chockers, cadenitas, collares, aros, pulseras, llaveros y anillos. Armá tu carrito y terminamos la compra por WhatsApp.</p>
+    ${DESC_EFECTIVO>0?`<div class="promo">✦ ${DESC_EFECTIVO}% OFF pagando en efectivo ✦</div><br>`:""}
+    <button class="btn cta" onclick="go('todo')">Ver el stock</button></section>
+    <div class="tiles">${tiles}</div>
+    <div class="h3">¿Cómo comprar?</div><p class="sub">Es muy simple, en 5 pasos</p>
+    <div class="pasos">${pasos.map((p,i)=>`<div class="paso"><div class="n">${i+1}</div><div><h4>${p[0]}</h4><p>${p[1]}</p></div></div>`).join("")}</div>
+    ${PUNTOS.length?`<div class="h3" id="puntos">Puntos de entrega en La Plata</div><p class="sub">Si elegís retirar, estos son los lugares donde entrego</p>
+    <div class="puntos">${PUNTOS.map(p=>`<div class="punto"><h4>${p.n}</h4><p>${p.d}</p>${p.h?`<p class="h">${p.h}</p>`:""}</div>`).join("")}</div>`:""}
+    <p class="fin">Tu compra se finaliza por WhatsApp: ahí te confirmo el stock y coordinamos el pago y la entrega.</p>
+    <div style="text-align:center;margin-top:22px"><button class="btn cta" onclick="go('todo')">Empezar a elegir</button></div>`;
+}
+function draw(){
+  drawNav();
+  if(cat==="inicio"){ $("#main").innerHTML=home(); $("#cnt").textContent=count(); return; }
+  const list = CATS.filter(c=>cat==="todo"||c.k===cat);
+  $("#main").innerHTML = list.map(c=>{
+    const ps=PRODUCTS.filter(p=>p.cat===c.k&&!p.off); if(!ps.length) return "";
+    return `<div class="sec"><h2>${c.t}</h2><span>${c.d}</span></div><div class="grid">${ps.map(card).join("")}</div>`;
+  }).join("");
+  $("#cnt").textContent = count();
+}
+const PR = p => (p.p ?? PRECIO_CAT[p.cat] ?? null);
+function calc(){
+  let sub=0, sin=0;
+  for(const id in cart){ const p=byId(id), pr=PR(p); if(pr==null) sin+=cart[id]; else sub+=pr*cart[id]; }
+  const off = DESC_EFECTIVO>0 ? Math.round(sub*DESC_EFECTIVO/100) : 0;
+  return {sub, sin, off, cash: sub-off};
+}
+function totals(c){
+  let h="";
+  if(c.sub) h+=`<div class="tot"><span>Total</span><b>${fmt(c.sub)}</b></div>`;
+  if(c.sub && c.off) h+=`<div class="tot cash"><span>Pagando en efectivo (${DESC_EFECTIVO}% OFF)</span><b>${fmt(c.cash)}</b></div>`;
+  if(c.sin) h+=`<div class="note">${c.sin} producto${c.sin>1?"s":""} sin precio cargado: te lo confirmo por WhatsApp.</div>`;
+  return h;
+}
+function payLine(){
+  const c=calc(); if(pago==null||!c.sub) return "";
+  const cash=PAGOS[pago].desc && c.off>0;
+  return `<div class="tot"><span>Total a pagar</span><b>${fmt(cash?c.cash:c.sub)}</b></div>`+(cash?`<div class="note">Incluye ${DESC_EFECTIVO}% de descuento (ahorrás ${fmt(c.off)}).</div>`:"")+(c.sin?`<div class="note">Sin contar ${c.sin} producto${c.sin>1?"s":""} sin precio.</div>`:"");
+}
+function totalMsg(){
+  const c=calc(); if(!c.sub) return "";
+  const cash=PAGOS[pago].desc && c.off>0;
+  return (cash?` Total: ${fmt(c.cash)} (con ${DESC_EFECTIVO}% de descuento por pagar en efectivo).`:` Total: ${fmt(c.sub)}.`)+(c.sin?" Faltan confirmar los productos sin precio.":"");
+}
+function open_(s){ step=s; $("#ov").classList.add("on"); modal(); }
+function close_(){ $("#ov").classList.remove("on"); }
+function head(t){ return `<button class="x" onclick="close_()">×</button><h2 class="serif">${t}</h2><div class="steps">Paso ${step+1} de 3</div>`; }
+function modal(){
+  const ids=Object.keys(cart), sh=$("#sh"); let h="";
+  if(!ids.length){ sh.innerHTML=`<button class="x" onclick="close_()">×</button><h2>Mi carrito</h2><div class="empty">Todavía no agregaste nada ✦</div>`; return; }
+  if(step===0){
+    const c=calc();
+    h=head("Confirmá tu compra")+ids.map(id=>{const p=byId(id);return `<div class="it"><img src="${IMG[id]}"><div>${p.n}<br><span class="pr">${PR(p)!=null?fmt(PR(p)):"Consultar precio"}</span></div><div class="qty"><button onclick="setQ('${id}',-1)">−</button><span>${cart[id]}</span><button onclick="setQ('${id}',1)" ${cart[id]>=p.s?"disabled":""}>+</button></div></div>`}).join("")
+    +totals(c)
+    +`<label class="l">Aclaraciones (opcional)</label><textarea id="nota" rows="2" placeholder="Ej: con alitas extra">${nota}</textarea>
+    <div class="row"><button class="btn o" onclick="close_()">Seguir mirando</button><button class="btn" onclick="nota=$('#nota').value;open_(1)">Confirmar</button></div>`;
+  } else if(step===1){
+    h=head("¿Con qué vas a pagar?")+PAGOS.map((o,i)=>`<label class="opt ${pago===i?"on":""}" onclick="pago=${i};modal()">${o.n}${o.desc&&DESC_EFECTIVO>0?`<span class="badge">${DESC_EFECTIVO}% OFF</span>`:""}</label>`).join("")
+    +payLine()
+    +`<div class="row"><button class="btn o" onclick="open_(0)">Volver</button><button class="btn" ${pago==null?"disabled":""} onclick="open_(2)">Siguiente</button></div>`;
+  } else {
+    const e=ENTREGAS[ent];
+    h=head("¿Cómo lo querés recibir?")+ENTREGAS.map((o,i)=>`<label class="opt ${ent===i?"on":""}" onclick="dir=($('#dir')||{}).value||dir;ent=${i};modal()">${o.n}</label>`).join("")
+    +(e&&e.pide?`<label class="l">${e.pide}</label><input type="text" id="dir" value="${dir}" oninput="dir=this.value">`:"")
+    +(ent!=null?`<div class="msg">${esc(msg())}</div>`:"")
+    +`<div class="row"><button class="btn o" onclick="open_(1)">Volver</button><button class="btn" ${ent==null?"disabled":""} onclick="send()">Enviar por WhatsApp</button></div>`;
+  }
+  sh.innerHTML=h;
+}
+const esc = s => s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+function msg(){
+  const its=Object.keys(cart).map(id=>{const p=byId(id);return p.n+(cart[id]>1?` (x${cart[id]})`:"")});
+  const lista = its.length>1 ? its.slice(0,-1).join(", ")+" y "+its.slice(-1) : its[0];
+  const e=ENTREGAS[ent];
+  return `Hola ${NOMBRE}, quiero comprar ${lista}.`+totalMsg()+(nota?` ${nota.trim()}.`:"")+` ${PAGOS[pago].msg[0].toUpperCase()+PAGOS[pago].msg.slice(1)}. ${e.msg}.`+(e.pide&&dir?` ${e.pide}: ${dir}.`:"");
+}
+function send(){
+  const bad=Object.keys(cart).find(id=>cart[id]>byId(id).s);
+  if(bad){ alert("Se agotó stock de: "+byId(bad).n); return; }
+  const a=document.createElement("a"); a.href=`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg())}`; a.target="_blank"; a.rel="noopener"; a.click();
+}
+$("#fab").onclick=()=>open_(0);
+$("#ov").onclick=e=>{ if(e.target.id==="ov") close_(); };
+Object.keys(cart).forEach(id=>{ const p=byId(id); if(!p||p.off||p.s<=0) delete cart[id]; else cart[id]=Math.min(cart[id],p.s); });
+draw();
+</script>
+</body></html>
