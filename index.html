@@ -101,7 +101,7 @@ label.l{display:block;margin-top:14px;font-size:11px;letter-spacing:.14em;text-t
 
 <script src="productos.js"></script>
 <script>
-const IMG = new Proxy({}, {get:(_,id)=>`img/${id}.jpg`});
+const IMG = new Proxy({}, {get:(_,id)=>`${id}.jpg`});
 let cart = {}, cat = "inicio", step = 0, pago = null, ent = null, nota = "", dir = "";
 try { cart = JSON.parse(localStorage.getItem("solari_cart") || "{}"); } catch(e){}
 const $ = s => document.querySelector(s), byId = id => PRODUCTS.find(p => p.id === id);
