@@ -180,6 +180,30 @@ html.hc-down #cs b{transform:scale(.8)}
 .sena span{color:var(--tx)}
 .sena .tot{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);color:var(--gold2);text-align:left}
 .sena.home{max-width:460px;margin:0 auto 18px}
+.card img,.card h3{cursor:pointer}
+.ver{align-self:flex-start;background:none;border:0;border-bottom:1px solid var(--line);color:var(--gold2);font:500 10px Montserrat,sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:0 0 2px;cursor:pointer}
+#pv{align-items:center;padding:12px}
+.pd{position:relative;max-width:800px;padding:0;overscroll-behavior:contain}
+.pdx{position:absolute;right:8px;top:8px;z-index:4;width:36px;height:36px;border:1px solid var(--gold);background:rgba(0,0,0,.7);color:var(--gold2);font-size:22px;line-height:1;cursor:pointer}
+.pg{position:relative;background:#000}
+.pg .mn{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#050505}
+.nv{position:absolute;top:calc(50% - 40px);width:38px;height:38px;border:1px solid var(--gold);background:rgba(0,0,0,.6);color:var(--gold2);font-size:22px;line-height:1;cursor:pointer;z-index:2}
+.nv.l{left:8px}.nv.r{right:8px}
+.cn2{position:absolute;left:8px;top:8px;font-size:10px;letter-spacing:.14em;background:rgba(0,0,0,.65);color:var(--gold2);padding:4px 8px;z-index:2}
+.th{display:flex;gap:8px;padding:10px;overflow-x:auto;background:#000}
+.tb{flex:none;padding:0;border:1px solid var(--line);background:none;opacity:.55;cursor:pointer}
+.tb.on{opacity:1;border-color:var(--gold2)}
+.tb img{display:block;width:56px;height:56px;object-fit:cover}
+.pi{padding:18px 18px 22px}
+.pi h2{margin:0 0 4px;font-size:22px;color:var(--gold);padding-right:34px}
+.pi .pp{font-size:18px;color:var(--gold2);margin-bottom:8px}
+.pi .dsc{font-size:13.5px;margin:10px 0 4px;color:var(--tx)}
+.dt{border-top:1px solid var(--line);margin-top:14px}
+.dt div{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid #1e1e1e;font-size:12.5px}
+.dt span{color:var(--mut)}.dt b{font-weight:500;text-align:right}
+.mas{display:block;margin-top:14px;text-align:center;color:var(--gold2);font-size:11.5px;letter-spacing:.1em;text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:3px}
+@media(min-width:720px){.pd{display:grid;grid-template-columns:1fr 1fr}.pi{padding:26px 22px}}
+.envnote{font-size:12px;letter-spacing:.06em;color:var(--gold2);margin:-6px auto 18px;max-width:460px}
 </style></head><body>
 <div id="bgfx"><div class="fog f1"></div><div class="fog f2"></div><div class="fog f3"></div><canvas id="dust"></canvas><img class="bgo o1" data-d="vid" alt=""><img class="bgo o2" data-d="cruz" alt=""><img class="bgo o3" data-d="fil" alt=""></div>
 <header><img class="hsun" data-d="sol" alt="Solari" onclick="go('inicio')"><h1 onclick="go('inicio')" style="cursor:pointer">SOLARI</h1><p>Gothic Jewelry</p><img class="flor" data-d="flor" alt=""></header>
@@ -190,6 +214,7 @@ html.hc-down #cs b{transform:scale(.8)}
 <a id="fwa" target="_blank" rel="noopener">Escribime por WhatsApp</a></footer>
 <button class="fab" id="fab">Mi carrito · <span id="cnt">0</span></button>
 <div class="ov" id="ov"><div class="sh" id="sh"></div></div>
+<div class="ov" id="pv"><div class="sh pd" id="pd"></div></div>
 <script src="decor.js"></script>
  
 <script src="productos.js"></script>
@@ -202,7 +227,7 @@ const $ = s => document.querySelector(s), byId = id => PRODUCTS.find(p => p.id =
 const fmt = n => "$" + n.toLocaleString("es-AR");
 const save = () => { try { localStorage.setItem("solari_cart", JSON.stringify(cart)); } catch(e){} };
 const count = () => Object.values(cart).reduce((a,b)=>a+b,0);
-function setQ(id,d){ const p=byId(id), q=(cart[id]||0)+d; if(q<=0) delete cart[id]; else cart[id]=Math.min(q,p.s); save(); draw(); if($("#ov").classList.contains("on")&&step===0) modal(); }
+function setQ(id,d){ const p=byId(id), q=(cart[id]||0)+d; if(q<=0) delete cart[id]; else cart[id]=Math.min(q,p.s); save(); draw(); if($("#ov").classList.contains("on")&&step===0) modal(); if($("#pv").classList.contains("on")) renderP(); }
  
 let menuOpen=false;
 function drawNav(){
@@ -229,8 +254,9 @@ document.addEventListener("click",e=>{ if(menuOpen&&!e.target.closest("#nav")){m
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&menuOpen){menuOpen=false;fitNav();} });
 function card(p){
   const q=cart[p.id]||0, out=p.s<=0;
-  return `<div class="card ${out?"out":""}"><img loading="lazy" src="${IMG[p.id]}" alt="${p.n}"><div class="b"><h3>${p.n}</h3>
+  return `<div class="card ${out?"out":""}"><img loading="lazy" src="${IMG[p.id]}" alt="${p.n}" onclick="openP('${p.id}')"><div class="b"><h3 onclick="openP('${p.id}')">${p.n}</h3>
   <div class="pr">${PR(p)!=null?fmt(PR(p)):"Consultar precio"}</div>
+  <button class="ver" onclick="openP('${p.id}')">Ver detalles ›</button>
   ${out?`<button class="btn" disabled>Agotado</button>`: q?`<div class="qty"><button onclick="setQ('${p.id}',-1)">−</button><span>${q}</span><button onclick="setQ('${p.id}',1)" ${q>=p.s?"disabled":""}>+</button></div>`:`<button class="btn" onclick="setQ('${p.id}',1)">Agregar</button>`}
   </div></div>`;
 }
@@ -240,16 +266,19 @@ function home(){
   const pasos=[
     ["Elegí tus productos","Entrá al stock, recorré las categorías y tocá <b>Agregar</b> en lo que te guste. Si querés más de uno, sumá con + y −."],
     ["Revisá tu carrito","Tocá <b>Mi carrito</b> (abajo a la derecha) para ver lo que elegiste, cambiar cantidades y ver el total."],
-    ["Elegí cómo pagar",`Podés pagar con ${pagos}.`+(DESC_EFECTIVO>0?` <b>Pagando en efectivo tenés ${DESC_EFECTIVO}% de descuento.</b>`:"")],
-    ["Elegí cómo recibirlo","Envío a domicilio o entrega en un punto de encuentro en La Plata (abajo están todos)."],
+   /* ["Elegí cómo pagar",`Podés pagar con ${pagos}.`+(DESC_EFECTIVO>0?` <b>Pagando en efectivo tenés ${DESC_EFECTIVO}% de descuento.</b>`:"")],*/
+    ["Elegí cómo recibirlo",`Envío a domicilio o entrega en un punto de encuentro en La Plata (abajo están todos).`+(ENVIO_NOTA?` <b>El envío no está incluido en el precio. Una vez finalizada la compra, se coordina por Whatsapp dependiendo el costo dado por Correo Argentino.</b>`:"")],
     ["Enviá tu pedido por WhatsApp","Se abre WhatsApp con tu pedido ya escrito, solo tenés que enviarlo. Ahí podés aclararme lo que quieras (por ejemplo, un detalle extra) y yo te confirmo la disponibilidad y coordinamos el pago y la entrega."]
   ];
+
+  /* ${DESC_EFECTIVO>0?`<div class="promo">✦ ${DESC_EFECTIVO}% OFF pagando en efectivo ✦</div><br>`:""} */
+
   if(SENA_PCT>0) pasos.push([`Señá el ${SENA_PCT}% para reservar`,`La seña es obligatoria: es la que reserva tus productos. Cuando te confirme el stock, coordinamos cómo abonarla.`]);
   const tiles=CATS.map(c=>{const f=PRODUCTS.find(p=>p.cat===c.k&&!p.off); return f?`<button class="tile" onclick="go('${c.k}')"><img src="${IMG[f.id]}" alt=""><span>${c.t}</span></button>`:"";}).join("");
   return `<section class="hero"><div class="sunwrap"><img src="${D.logo}" alt="Solari Gothic Jewelry"></div><h2 class="serif">Te doy la bienvenida</h2>
     <p>Acá vas a encontrar todo mi stock disponible: chockers, cadenitas, collares, aros, pulseras, llaveros y anillos. Armá tu carrito y terminamos la compra por WhatsApp.</p>
-    ${DESC_EFECTIVO>0?`<div class="promo">✦ ${DESC_EFECTIVO}% OFF pagando en efectivo ✦</div><br>`:""}
     ${SENA_PCT>0?`<div class="sena home"><b>Seña obligatoria del ${SENA_PCT}%</b><span>Para reservar tu pedido se abona una seña del ${SENA_PCT}% del total.</span></div>`:""}
+    ${ENVIO_NOTA?`<div class="envnote">✦ El envío no está incluido en el precio ✦</div>`:""}
     <button class="btn cta" onclick="go('todo')">Ver el stock</button></section>
     <div class="tiles">${tiles}</div>
     <img class="flor" src="${D.flor}" alt=""><div class="h3" style="margin-top:22px">¿Cómo comprar?</div><p class="sub">Es muy simple, en ${pasos.length} pasos</p>
@@ -272,6 +301,7 @@ function draw(){
   fx();
 }
 const SENA_PCT = (typeof SENA!=="undefined") ? SENA : 25;   // % de seña (se cambia en productos.js)
+const ENVIO_NOTA = (typeof ENVIO_CLIENTE!=="undefined") ? ENVIO_CLIENTE : "El envío no está incluido en el precio.";   // se cambia en productos.js
 const PR = p => (p.p ?? PRECIO_CAT[p.cat] ?? null);
 function calc(){
   let sub=0, sin=0;
@@ -282,7 +312,7 @@ function calc(){
 function totals(c){
   let h="";
   if(c.sub) h+=`<div class="tot"><span>Total</span><b>${fmt(c.sub)}</b></div>`;
-  if(c.sub && c.off) h+=`<div class="tot cash"><span>Pagando en efectivo (${DESC_EFECTIVO}% OFF)</span><b>${fmt(c.cash)}</b></div>`;
+  /*if(c.sub && c.off) h+=`<div class="tot cash"><span>Pagando en efectivo (${DESC_EFECTIVO}% OFF)</span><b>${fmt(c.cash)}</b></div>`;*/
   if(c.sin) h+=`<div class="note">${c.sin} producto${c.sin>1?"s":""} sin precio cargado: te lo confirmo por WhatsApp.</div>`;
   return h;
 }
@@ -298,7 +328,7 @@ function senaMonto(){
 }
 function senaBox(){
   if(!(SENA_PCT>0)) return ""; const m=senaMonto();
-  return `<div class="sena"><b>✦ Seña obligatoria del ${SENA_PCT}%</b><span>Para reservar tu pedido es necesario señar el ${SENA_PCT}% del total.</span>${m?`<div class="tot"><span>Seña a abonar</span><b style="display:inline;margin:0;font:600 15px Montserrat,sans-serif;letter-spacing:0">${fmt(m)}</b></div>`:""}</div>`;
+  return `<div class="sena"><b>✦ Seña obligatoria del ${SENA_PCT}% ✦</b><span>Para reservar tu pedido es necesario señar el ${SENA_PCT}% del total.</span>${m?`<div class="tot"><span>Seña a abonar</span><b style="display:inline;margin:0;font:600 15px Montserrat,sans-serif;letter-spacing:0">${fmt(m)}</b></div>`:""}</div>`;
 }
 function senaMsg(){
   if(!(SENA_PCT>0)) return ""; const m=senaMonto();
@@ -307,7 +337,7 @@ function senaMsg(){
 function totalMsg(){
   const c=calc(); if(!c.sub) return "";
   const cash=PAGOS[pago].desc && c.off>0;
-  return (cash?` Total: ${fmt(c.cash)} (con ${DESC_EFECTIVO}% de descuento por pagar en efectivo).`:` Total: ${fmt(c.sub)}.`)+(c.sin?" Faltan confirmar los productos sin precio.":"");
+  /*return (cash?` Total: ${fmt(c.cash)} (con ${DESC_EFECTIVO}% de descuento por pagar en efectivo).`:` Total: ${fmt(c.sub)}.`)+(c.sin?" Faltan confirmar los productos sin precio.":"");*/
 }
 function open_(s){ step=s; $("#ov").classList.add("on"); modal(); }
 function close_(){ $("#ov").classList.remove("on"); }
@@ -328,6 +358,7 @@ function modal(){
     const e=ENTREGAS[ent];
     h=head("¿Cómo lo querés recibir?")+ENTREGAS.map((o,i)=>`<label class="opt ${ent===i?"on":""}" onclick="direccion=($('#dirin')||{}).value||direccion;ent=${i};modal()">${o.n}</label>`).join("")
     +(e&&e.pide?`<label class="l">${e.pide}</label><input type="text" id="dirin" placeholder="Calle, número, piso/depto y localidad" value="${direccion.replace(/"/g,"&quot;")}" oninput="direccion=this.value;refreshMsg()">`:"")
+    +(e&&e.pide&&ENVIO_NOTA?`<div class="sena" style="margin-top:14px"><b>✦ El envío no está incluido en el precio ✦</b><span>${ENVIO_NOTA}</span></div>`:"")
     +`<label class="l">Tu nombre</label><input type="text" id="nomin" placeholder="Nombre y apellido" value="${nombreCliente.replace(/"/g,"&quot;")}" oninput="nombreCliente=this.value;refreshMsg()">`
     +senaBox()+(ent!=null?`<div class="msg">${esc(msg())}</div>`:"")
     +`<div class="row"><button class="btn o" onclick="open_(1)">Volver</button><button class="btn" id="sendb" ${canSend()?"":"disabled"} onclick="send()">Enviar por WhatsApp</button></div>`;
@@ -339,7 +370,7 @@ function msg(){
   const its=Object.keys(cart).map(id=>{const p=byId(id);return p.n+(cart[id]>1?` (x${cart[id]})`:"")});
   const lista = its.length>1 ? its.slice(0,-1).join(", ")+" y "+its.slice(-1) : its[0];
   const e=ENTREGAS[ent];
-  return `Hola, mi nombre es ${nombreCliente.trim()||"..."}, quiero comprar ${lista}.`+totalMsg()+` ${PAGOS[pago].msg[0].toUpperCase()+PAGOS[pago].msg.slice(1)}.`+senaMsg()+` ${e.msg}.`+(e.pide&&direccion.trim()?` ${e.pide}: ${direccion.trim()}.`:"");
+  return `Hola, mi nombre es ${nombreCliente.trim()||"..."}, quiero comprar ${lista}.`+totalMsg()+` ${PAGOS[pago].msg[0].toUpperCase()+PAGOS[pago].msg.slice(1)}.`+senaMsg()+` ${e.msg}.`+(e.pide&&ENVIO_NOTA?" Entiendo que el envío no está incluido en el precio.":"")+(e.pide&&direccion.trim()?` ${e.pide}: ${direccion.trim()}.`:"");
 }
 const canSend=()=>{ const e=ENTREGAS[ent]; return ent!=null && !!nombreCliente.trim() && !(e&&e.pide&&!direccion.trim()); };
 function refreshMsg(){ const m=$(".msg"); if(m) m.textContent=msg(); const b=$("#sendb"); if(b) b.disabled=!canSend(); }
@@ -349,6 +380,37 @@ function send(){
   if(bad){ alert("Se agotó stock de: "+byId(bad).n); return; }
   const a=document.createElement("a"); a.href=`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg())}`; a.target="_blank"; a.rel="noopener"; a.click();
 }
+/* ---- ficha de producto ---- */
+let pid=null, gi=0;
+const fotosDe=p=>[IMG[p.id],...(p.fotos||[])];
+function openP(id){ pid=id; gi=0; $("#pv").classList.add("on"); renderP(); const s=$("#pd"); if(s) s.scrollTop=0; }
+function closeP(){ $("#pv").classList.remove("on"); pid=null; }
+function gP(d){ const n=fotosDe(byId(pid)).length; gi=(gi+d+n)%n; renderP(); }
+function sP(i){ gi=i; renderP(); }
+function renderP(){
+  const p=byId(pid); if(!p) return;
+  const fs=fotosDe(p), q=cart[p.id]||0, out=p.s<=0, c=CATS.find(x=>x.k===p.cat)||{}, pr=PR(p), many=fs.length>1;
+  const det=[["Categoría",c.t||""]];
+  if(c.d) det.push(["Detalle",c.d[0].toUpperCase()+c.d.slice(1)]);
+  if(p.med) det.push(["Medidas",p.med]);
+  det.push(["Disponibilidad",out?"Agotado":p.s===1?"Última unidad":p.s+" unidades"]);
+  const act = out ? `<button class="btn" disabled>Agotado</button>`
+    : q ? `<div class="qty" style="flex:1"><button onclick="setQ('${p.id}',-1)">−</button><span>${q}</span><button onclick="setQ('${p.id}',1)" ${q>=p.s?"disabled":""}>+</button></div><button class="btn" style="flex:1" onclick="closeP();open_(0)">Ver mi carrito</button>`
+    : `<button class="btn" onclick="setQ('${p.id}',1)">Agregar al carrito</button>`;
+  $("#pd").innerHTML=`<button class="pdx" onclick="closeP()" aria-label="Cerrar">×</button>
+  <div class="pg"><img id="pgm" class="mn" src="${fs[gi]}" alt="${esc(p.n)}">
+  ${many?`<div class="cn2">${gi+1} / ${fs.length}</div><button class="nv l" onclick="gP(-1)" aria-label="Foto anterior">‹</button><button class="nv r" onclick="gP(1)" aria-label="Foto siguiente">›</button>
+  <div class="th">${fs.map((f,i)=>`<button class="tb ${i===gi?"on":""}" onclick="sP(${i})"><img src="${f}" alt=""></button>`).join("")}</div>`:""}</div>
+  <div class="pi"><h2 class="serif">${esc(p.n)}</h2><div class="pp">${pr!=null?fmt(pr):"Consultar precio"}</div>
+  ${p.desc?`<p class="dsc">${esc(p.desc)}</p>`:""}
+  <div class="dt">${det.map(([a,b])=>`<div><span>${a}</span><b>${esc(b)}</b></div>`).join("")}</div>
+  <div class="row">${act}</div>
+  <a class="mas" target="_blank" rel="noopener" href="https://wa.me/${WHATSAPP}?text=${encodeURIComponent("Hola, quiero ver más fotos de: "+p.n)}">¿Querés ver más fotos? Escribime por WhatsApp</a></div>`;
+  const m=$("#pgm"); let x0=null;
+  m.ontouchstart=e=>{x0=e.touches[0].clientX}; m.ontouchend=e=>{ if(x0==null) return; const dx=e.changedTouches[0].clientX-x0; x0=null; if(many&&Math.abs(dx)>40) gP(dx<0?1:-1); };
+}
+$("#pv").onclick=e=>{ if(e.target.id==="pv") closeP(); };
+addEventListener("keydown",e=>{ if(!pid) return; if(e.key==="Escape") closeP(); else if(e.key==="ArrowLeft") gP(-1); else if(e.key==="ArrowRight") gP(1); });
 $("#fab").onclick=()=>open_(0);
 $("#ov").onclick=e=>{ if(e.target.id==="ov") close_(); };
 Object.keys(cart).forEach(id=>{ const p=byId(id); if(!p||p.off||p.s<=0) delete cart[id]; else cart[id]=Math.min(cart[id],p.s); });
