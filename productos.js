@@ -3,7 +3,7 @@ const WHATSAPP = "5492216307977";   // tu número: código de país + área + n�
 const NOMBRE   = "Sofia";
 const PAGOS = [
   {n:"Transferencia", msg:"quiero transferirte"},
-  {n:"Efectivo",      msg:"quiero pagar en efectivo", desc:true},   // desc:true = aplica el descuento en efectivo
+  {n:"Efectivo",      msg:"quiero pagar en efectivo", desc:false},   // desc:true = aplica el descuento en efectivo
   {n:"Mercado Pago",  msg:"quiero pagar con Mercado Pago"}
 ];
 const ENTREGAS = [
@@ -12,6 +12,7 @@ const ENTREGAS = [
 ];
 const DESC_EFECTIVO = 10;   // % de descuento pagando en efectivo (poné 0 para sacarlo)
 const SENA = 25;             // % de seña obligatoria para reservar el pedido (poné 0 para sacarla)
+const ENVIO_CLIENTE = "Una vez finalizada la compra, se coordina por Whatsapp dependiendo del costo dado por Correo Argentino.";   // aviso sobre el envío (dejalo "" para sacarlo)
  
 /* Precio por categoría: se usa para todos los productos de esa categoría que NO tengan su propio "p".
    Ej: aros: 6500. Dejá null si todavía no tenés precio. */
@@ -28,10 +29,18 @@ const PUNTOS = [
   {n:"Estación de tren", d:"1 y 44, La Plata"}
 ];
  
-/* Productos: id, cat, n = nombre, p = precio propio (número; si es null usa el de la categoría), s = stock (0 = agotado), off:true = ocultar */
+/* Productos: id, cat, n = nombre, p = precio propio (número; si es null usa el de la categoría), s = stock (0 = agotado), off:true = ocultar
+ 
+   OPCIONALES (para la ficha que se abre al tocar un producto):
+     "fotos":["cho01_2.jpg","cho01_3.jpg"]   fotos extra: los archivos van en la misma carpeta que index.html
+     "desc":"Texto que cuenta más del accesorio"
+     "med":"Dije de 4 cm, cadena de 40 cm"
+   Ejemplo (se agregan al final de la línea del producto, separados por coma):
+   {"id":"cho01","cat":"chockers","n":"Choker cruz gótica roja","p":null,"s":1,"fotos":["cho01_2.jpg","cho01_3.jpg"],"desc":"Escribí acá la descripción.","med":"Medidas"},
+*/
 const PRODUCTS = [
 {"id":"cho01","cat":"chockers","n":"Choker cruz gótica roja","p":null,"s":1},
-{"id":"cho02","cat":"chockers","n":"Choker luna creciente","p":null,"s":0},
+{"id":"cho02","cat":"chockers","n":"Choker luna creciente","p":null,"s":1},
 {"id":"cho03","cat":"chockers","n":"Choker corazón de púas","p":null,"s":1},
 {"id":"cho04","cat":"chockers","n":"Choker Saturno","p":null,"s":1},
 {"id":"cho05","cat":"chockers","n":"Choker corazón negro con rayos","p":null,"s":1},
@@ -181,3 +190,4 @@ const CATS = [
   "d": "de acero quirúrgico"
  }
 ];
+ 
