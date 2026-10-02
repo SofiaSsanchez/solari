@@ -196,7 +196,7 @@ html.hc-down #cs b{transform:scale(.8)}
 <script>
 const IMG = new Proxy({}, {get:(_,id)=>`${id}.jpg`});
 const D = window.DECOR||{};
-let cart = {}, cat = "inicio", step = 0, pago = null, ent = null, direccion = "";
+let cart = {}, cat = "inicio", step = 0, pago = null, ent = null, direccion = "", nombreCliente = "";
 try { cart = JSON.parse(localStorage.getItem("solari_cart") || "{}"); } catch(e){}
 const $ = s => document.querySelector(s), byId = id => PRODUCTS.find(p => p.id === id);
 const fmt = n => "$" + n.toLocaleString("es-AR");
@@ -328,6 +328,7 @@ function modal(){
     const e=ENTREGAS[ent];
     h=head("¿Cómo lo querés recibir?")+ENTREGAS.map((o,i)=>`<label class="opt ${ent===i?"on":""}" onclick="direccion=($('#dirin')||{}).value||direccion;ent=${i};modal()">${o.n}</label>`).join("")
     +(e&&e.pide?`<label class="l">${e.pide}</label><input type="text" id="dirin" placeholder="Calle, número, piso/depto y localidad" value="${direccion.replace(/"/g,"&quot;")}" oninput="direccion=this.value;refreshMsg()">`:"")
+    +`<label class="l">Tu nombre</label><input type="text" id="nomin" placeholder="Nombre y apellido" value="${nombreCliente.replace(/"/g,"&quot;")}" oninput="nombreCliente=this.value;refreshMsg()">`
     +senaBox()+(ent!=null?`<div class="msg">${esc(msg())}</div>`:"")
     +`<div class="row"><button class="btn o" onclick="open_(1)">Volver</button><button class="btn" id="sendb" ${canSend()?"":"disabled"} onclick="send()">Enviar por WhatsApp</button></div>`;
   }
@@ -338,9 +339,9 @@ function msg(){
   const its=Object.keys(cart).map(id=>{const p=byId(id);return p.n+(cart[id]>1?` (x${cart[id]})`:"")});
   const lista = its.length>1 ? its.slice(0,-1).join(", ")+" y "+its.slice(-1) : its[0];
   const e=ENTREGAS[ent];
-  return `Hola ${NOMBRE}, quiero comprar ${lista}.`+totalMsg()+` ${PAGOS[pago].msg[0].toUpperCase()+PAGOS[pago].msg.slice(1)}.`+senaMsg()+` ${e.msg}.`+(e.pide&&direccion.trim()?` ${e.pide}: ${direccion.trim()}.`:"");
+  return `Hola, mi nombre es ${nombreCliente.trim()||"..."}, quiero comprar ${lista}.`+totalMsg()+` ${PAGOS[pago].msg[0].toUpperCase()+PAGOS[pago].msg.slice(1)}.`+senaMsg()+` ${e.msg}.`+(e.pide&&direccion.trim()?` ${e.pide}: ${direccion.trim()}.`:"");
 }
-const canSend=()=>{ const e=ENTREGAS[ent]; return ent!=null && !(e&&e.pide&&!direccion.trim()); };
+const canSend=()=>{ const e=ENTREGAS[ent]; return ent!=null && !!nombreCliente.trim() && !(e&&e.pide&&!direccion.trim()); };
 function refreshMsg(){ const m=$(".msg"); if(m) m.textContent=msg(); const b=$("#sendb"); if(b) b.disabled=!canSend(); }
 function send(){
   if(!canSend()) return;
