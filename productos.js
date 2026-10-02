@@ -12,11 +12,11 @@ const ENTREGAS = [
 ];
 const DESC_EFECTIVO = 10;   // % de descuento pagando en efectivo (poné 0 para sacarlo)
 const SENA = 25;             // % de seña obligatoria para reservar el pedido (poné 0 para sacarla)
-
+ 
 /* Precio por categoría: se usa para todos los productos de esa categoría que NO tengan su propio "p".
    Ej: aros: 6500. Dejá null si todavía no tenés precio. */
 const PRECIO_CAT = {chockers:8000, cadenitas:11000, collares:17000, piedras:8000, aros:6000, pulseras:5000, llaveros:10000, anillos:4000};
-
+ 
 /* Puntos de entrega en La Plata (se muestran en el Inicio). n = nombre, d = dirección/zona, h = días y horarios (opcional).
    Si dejás la lista vacía [], la sección no se muestra. */
 const PUNTOS = [
@@ -27,7 +27,7 @@ const PUNTOS = [
   {n:"Parque Alberti", d:"25 y 38, La Plata"},
   {n:"Estación de tren", d:"1 y 44, La Plata"}
 ];
-
+ 
 /* Productos: id, cat, n = nombre, p = precio propio (número; si es null usa el de la categoría), s = stock (0 = agotado), off:true = ocultar */
 const PRODUCTS = [
 {"id":"cho01","cat":"chockers","n":"Choker cruz gótica roja","p":null,"s":1},
