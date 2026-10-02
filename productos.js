@@ -31,7 +31,7 @@ const PUNTOS = [
 /* Productos: id, cat, n = nombre, p = precio propio (número; si es null usa el de la categoría), s = stock (0 = agotado), off:true = ocultar */
 const PRODUCTS = [
 {"id":"cho01","cat":"chockers","n":"Choker cruz gótica roja","p":null,"s":1},
-{"id":"cho02","cat":"chockers","n":"Choker luna creciente","p":null,"s":1},
+{"id":"cho02","cat":"chockers","n":"Choker luna creciente","p":null,"s":0},
 {"id":"cho03","cat":"chockers","n":"Choker corazón de púas","p":null,"s":1},
 {"id":"cho04","cat":"chockers","n":"Choker Saturno","p":null,"s":1},
 {"id":"cho05","cat":"chockers","n":"Choker corazón negro con rayos","p":null,"s":1},
