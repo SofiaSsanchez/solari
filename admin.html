@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Solari · Panel de administración</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--g:#a68a5b;--g2:#c9ae7c;--tx:#f2eee6;--mut:#9a948a;--ln:rgba(166,138,91,.5)}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 15% 0,#1a1712,#000 45%) fixed;color:var(--tx);font:14px/1.5 Montserrat,system-ui,sans-serif}
+h1,h2,h3{font-family:Cinzel,Georgia,serif;font-weight:400;color:var(--g);margin:0}
+.bar{position:sticky;top:0;z-index:10;background:rgba(0,0,0,.95);border-bottom:1px solid var(--ln);padding:10px 14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.bar h1{font-size:20px;letter-spacing:.12em}
+.bt{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button,.b{font:500 11px Montserrat,sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:10px 14px;border:1px solid var(--g);background:none;color:var(--g2);cursor:pointer}
+button:hover{background:rgba(166,138,91,.16)}
+button.p{background:var(--g);color:#000}button.p:hover{background:var(--g2)}
+button:disabled{opacity:.4;cursor:default}
+button.mini{padding:6px 9px;font-size:10px}
+button.del{border-color:#8a3b34;color:#e0796b;margin-top:12px}
+.wrap{max-width:1000px;margin:0 auto;padding:16px 14px 80px}
+#msg{margin:12px 0;padding:11px 14px;border:1px solid var(--ln);background:rgba(166,138,91,.1);display:none}
+#msg.err{border-color:#8a3b34;background:rgba(138,59,52,.15);color:#f0b3ab}
+#msg.on{display:block}
+.dot{display:none;color:#e8b96a;font-size:12px}.dot.on{display:inline}
+.tabs{display:flex;gap:8px;margin:14px 0}
+.tabs button.on{background:var(--g);color:#000}
+.box{border:1px solid var(--ln);background:#0b0b0b;padding:16px;margin-bottom:14px}
+.box h3{font-size:18px;margin-bottom:8px}
+.box ol{margin:8px 0 0;padding-left:20px;color:var(--tx)}.box li{margin:4px 0}
+.box code{background:#1a1a1a;padding:1px 5px;color:var(--g2)}
+label{display:block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--g2);margin-top:10px}
+input,select,textarea{width:100%;background:#000;color:var(--tx);border:1px solid var(--ln);padding:9px;font:14px Montserrat,sans-serif;margin-top:4px}
+input[type=checkbox]{width:auto;margin:0 6px 0 0}
+.flt{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.it{display:grid;grid-template-columns:96px 1fr;gap:12px;border:1px solid var(--ln);background:#0b0b0b;padding:12px;margin-bottom:10px}
+.it.off{opacity:.6}
+.ph img{width:96px;height:96px;object-fit:cover;border:1px solid var(--ln);display:block;background:#111}
+.ph button{width:100%;margin-top:6px}
+.fl{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:0 10px}
+.fl .w{grid-column:1/-1}
+.ck{display:flex!important;align-items:center;margin-top:24px!important;letter-spacing:.06em!important}
+.dd{grid-column:1/-1;border-top:1px solid #222;padding-top:8px}
+.dd summary{cursor:pointer;color:var(--g2);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.xf{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
+.xt{position:relative}.xt img{width:64px;height:64px;object-fit:cover;border:1px solid var(--ln);display:block}
+.xt button{position:absolute;top:-6px;right:-6px;width:22px;height:22px;padding:0;border-radius:50%;background:#000;font-size:14px;line-height:1}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0 12px}
+.pt{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:end;margin-bottom:6px}
+@media(max-width:560px){.pt{grid-template-columns:1fr}.it{grid-template-columns:76px 1fr}.ph img{width:76px;height:76px}}
+</style></head><body>
+<div class="bar"><h1>SOLARI · ADMIN</h1>
+ <div class="bt"><span class="dot" id="dot">● Cambios sin guardar</span>
+ <button id="bdl" title="Descarga productos.js actualizado">Descargar productos.js</button>
+ <button class="p" id="bsv">Guardar cambios</button></div></div>
+<div class="wrap">
+ <div id="msg"></div>
+ <div id="conn"></div>
+ <div id="app" style="display:none">
+  <div class="tabs"><button data-t="prod" class="on">Productos</button><button data-t="aj">Ajustes</button></div>
+  <div id="vp"></div><div id="va" style="display:none"></div>
+ </div>
+</div>
+<input type="file" id="fi" accept="image/*" multiple hidden>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let cfg=null; try{cfg=JSON.parse(localStorage.getItem("solari_admin")||"null")}catch(e){}
+let D=null, base="", uploads={}, dirty=false, fcat="todo", q="", act=null;
+
+/* ---------- utilidades ---------- */
+function msg(t,err){const m=$("#msg");m.textContent=t;m.className=(t?"on ":"")+(err?"err":"");}
+function setDirty(v){dirty=v;$("#dot").classList.toggle("on",v);}
+function errText(e){const s=e.status; return s===401?"El token no es válido o venció. Creá uno nuevo y volvé a conectar.":s===403?"El token no tiene permiso para modificar el repositorio (necesita Contents: Read and write).":s===404?"No encuentro el repositorio o el archivo productos.js. Revisá que el nombre sea usuario/repositorio.":"Error: "+(e.message||e);}
+const dec=b=>new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\n/g,"")),c=>c.charCodeAt(0)));
+const enc=t=>btoa(unescape(encodeURIComponent(t)));
+async function gh(path,o={}){
+  const r=await fetch("https://api.github.com/repos/"+cfg.repo+"/contents/"+path,{method:o.method||"GET",headers:{Authorization:"Bearer "+cfg.token,Accept:"application/vnd.github+json","Content-Type":"application/json"},body:o.body&&JSON.stringify(o.body)});
+  if(r.status===404&&o.soft) return null;
+  if(!r.ok){const e=new Error("HTTP "+r.status);e.status=r.status;throw e;}
+  return r.json();
+}
+function parse(t){return new Function(t+`;return {PRODUCTS,CATS,WHATSAPP,
+ SENA:typeof SENA!=="undefined"?SENA:0, DESC:typeof DESC_EFECTIVO!=="undefined"?DESC_EFECTIVO:0,
+ ENVIO:typeof ENVIO_CLIENTE!=="undefined"?ENVIO_CLIENTE:"", PRECIO_CAT:typeof PRECIO_CAT!=="undefined"?PRECIO_CAT:{}, PUNTOS:typeof PUNTOS!=="undefined"?PUNTOS:[]}`)();}
+function jpg(file,max=1200){return new Promise((ok,no)=>{const im=new Image();im.onload=()=>{const k=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(im.src);ok(c.toDataURL("image/jpeg",.86));};im.onerror=()=>no(new Error("No pude leer esa imagen"));im.src=URL.createObjectURL(file);});}
+
+/* ---------- conexión ---------- */
+function drawConn(){
+  const c=$("#conn");
+  if(cfg){c.innerHTML=`<div style="font-size:12px;color:var(--mut);margin:8px 0">Conectado a <b style="color:var(--g2)">${esc(cfg.repo)}</b> · <a href="#" id="disc" style="color:var(--g2)">Desconectar</a></div>`;$("#disc").onclick=e=>{e.preventDefault();localStorage.removeItem("solari_admin");cfg=null;location.reload();};return;}
+  c.innerHTML=`<div class="box"><h3>Conectar con tu repositorio de GitHub</h3>
+  <p style="margin:0 0 6px">Para guardar los cambios directo en tu página necesitás un permiso (token). Se crea una sola vez y queda guardado solo en este navegador.</p>
+  <ol><li>En GitHub: tu foto → <b>Settings</b> → <b>Developer settings</b> → <b>Personal access tokens</b> → <b>Fine-grained tokens</b> → <b>Generate new token</b>.</li>
+  <li><b>Repository access</b>: <i>Only select repositories</i> y elegí el repositorio de la tienda.</li>
+  <li><b>Permissions → Repository permissions → Contents</b>: <i>Read and write</i>.</li>
+  <li>Generá el token, copialo (empieza con <code>github_pat_</code>) y pegalo acá.</li></ol>
+  <label>Repositorio (usuario/nombre)</label><input id="crepo" placeholder="tuusuario/solari">
+  <label>Token</label><input id="ctok" type="password" placeholder="github_pat_...">
+  <p style="font-size:12px;color:var(--mut)">No compartas el token: quien lo tenga puede modificar tu repositorio. Sin conectar, podés ver y editar, pero no guardar (sí descargar productos.js).</p>
+  <button class="p" id="cgo">Conectar</button></div>`;
+  $("#cgo").onclick=async()=>{
+    cfg={repo:$("#crepo").value.trim().replace(/^https?:\/\/github\.com\//,"").replace(/\/$/,""),token:$("#ctok").value.trim()};
+    try{await gh("productos.js");localStorage.setItem("solari_admin",JSON.stringify(cfg));msg("Conectado ✓");drawConn();load();}catch(e){cfg=null;msg(errText(e),true);}
+  };
+}
+
+/* ---------- carga ---------- */
+async function load(){
+  try{
+    if(cfg){base=dec((await gh("productos.js")).content);}
+    else{const r=await fetch("productos.js?t="+Date.now());if(!r.ok)throw new Error("No encuentro productos.js junto a este archivo");base=await r.text();}
+    D=parse(base);$("#app").style.display="";render();
+  }catch(e){msg(errText(e),true);}
+}
+
+/* ---------- productos ---------- */
+function src(p){return p._src||(p.id+".jpg"+(p.v?"?v="+p.v:""));}
+function rowHtml(p){
+  const cats=D.CATS.map(c=>`<option value="${c.k}" ${c.k===p.cat?"selected":""}>${esc(c.t)}</option>`).join("");
+  return `<div class="it ${p.off?"off":""}" data-id="${p.id}">
+  <div class="ph"><img src="${esc(src(p))}" alt=""><button class="mini" data-a="main">Cambiar foto</button></div>
+  <div class="fl">
+   <label class="w">Nombre<input data-f="n" value="${esc(p.n)}"></label>
+   <label>Categoría<select data-f="cat">${cats}</select></label>
+   <label>Precio ($)<input data-f="p" type="number" min="0" placeholder="el de la categoría" value="${p.p??""}"></label>
+   <label>Stock<input data-f="s" type="number" min="0" value="${p.s??0}"></label>
+   <label class="ck"><input data-f="off" type="checkbox" ${p.off?"checked":""}>Ocultar</label>
+  </div>
+  <details class="dd"><summary>Descripción, medidas y más fotos</summary>
+   <label>Descripción<textarea data-f="desc" rows="3">${esc(p.desc||"")}</textarea></label>
+   <label>Medidas<input data-f="med" value="${esc(p.med||"")}" placeholder="Ej: Dije de 4 cm, cadena de 40 cm"></label>
+   <label>Fotos extra</label>
+   <div class="xf">${(p.fotos||[]).map((f,i)=>`<span class="xt"><img src="${esc((p._pv&&p._pv[f])||f)}" alt=""><button data-a="rm" data-i="${i}" title="Quitar">×</button></span>`).join("")}<button class="mini" data-a="add">+ Agregar fotos</button></div>
+   <button class="del" data-a="del">Eliminar producto</button>
+  </details></div>`;
+}
+function nextId(cat){const pre=cat.slice(0,3);let m=0;D.PRODUCTS.forEach(p=>{const x=p.id.match(new RegExp("^"+pre+"(\\d+)$"));if(x)m=Math.max(m,+x[1]);});return pre+String(m+1).padStart(2,"0");}
+function drawProd(){
+  const catOpts=D.CATS.map(c=>`<option value="${c.k}">${esc(c.t)}</option>`).join("");
+  const list=D.PRODUCTS.filter(p=>(fcat==="todo"||p.cat===fcat)&&(!q||p.n.toLowerCase().includes(q)||p.id.includes(q)));
+  $("#vp").innerHTML=`<div class="box"><details><summary style="cursor:pointer;color:var(--g2);letter-spacing:.1em;text-transform:uppercase;font-size:12px">+ Nuevo producto</summary>
+   <div class="g2"><label>Categoría<select id="ncat">${catOpts}</select></label><label>Nombre<input id="nn"></label>
+   <label>Precio ($)<input id="np" type="number" min="0" placeholder="el de la categoría"></label><label>Stock<input id="ns" type="number" min="0" value="1"></label></div>
+   <label>Foto (obligatoria)</label><input id="nf" type="file" accept="image/*"><br><br><button class="p" id="ncreate">Crear producto</button></details></div>
+  <div class="flt"><div><label style="margin-top:0">Categoría</label><select id="fc"><option value="todo">Todas</option>${catOpts}</select></div>
+  <div><label style="margin-top:0">Buscar</label><input id="fq" placeholder="Nombre o código" value="${esc(q)}"></div></div>
+  <div style="color:var(--mut);font-size:12px;margin-bottom:8px">${list.length} producto(s)</div>
+  <div id="list">${list.map(rowHtml).join("")||'<div class="box">No hay productos con ese filtro.</div>'}</div>`;
+  $("#fc").value=fcat;
+  $("#fc").onchange=e=>{fcat=e.target.value;drawProd();};
+  $("#fq").oninput=e=>{q=e.target.value.toLowerCase();clearTimeout(window._t);window._t=setTimeout(()=>{drawProd();const f=$("#fq");f.focus();f.setSelectionRange(99,99);},250);};
+  $("#ncreate").onclick=createProd;
+}
+async function createProd(){
+  const f=$("#nf").files[0],n=$("#nn").value.trim(),cat=$("#ncat").value;
+  if(!n) return msg("Poné el nombre del producto.",true);
+  if(!f) return msg("Elegí una foto para el producto.",true);
+  try{const d=await jpg(f),id=nextId(cat),v=Date.now(),pv=$("#np").value;
+    uploads[id+".jpg"]=d.split(",")[1];
+    D.PRODUCTS.push({id,cat,n,p:pv===""?null:+pv,s:+$("#ns").value||0,v,_src:d});
+    setDirty(true);fcat=cat;q="";drawProd();msg(`Producto creado (${id}). Recordá tocar "Guardar cambios".`);
+  }catch(e){msg(errText(e),true);}
+}
+function byId(id){return D.PRODUCTS.find(p=>p.id===id);}
+$("#vp").addEventListener("input",e=>{
+  const t=e.target,f=t.dataset.f,row=t.closest(".it"); if(!f||!row) return; const p=byId(row.dataset.id);
+  if(f==="p") p.p=t.value===""?null:Math.max(0,+t.value);
+  else if(f==="s") p.s=Math.max(0,+t.value||0);
+  else if(f==="off"){p.off=t.checked;row.classList.toggle("off",t.checked);}
+  else p[f]=t.value;
+  setDirty(true);
+});
+$("#vp").addEventListener("click",e=>{
+  const b=e.target.closest("[data-a]"); if(!b) return; const row=b.closest(".it"),p=row&&byId(row.dataset.id),a=b.dataset.a;
+  if(a==="main"||a==="add"){act={id:p.id,a};$("#fi").value="";$("#fi").click();}
+  else if(a==="rm"){p.fotos.splice(+b.dataset.i,1);setDirty(true);row.outerHTML=rowHtml(p);}
+  else if(a==="del"&&confirm(`¿Eliminar "${p.n}"? (Se borra de la lista; el archivo de la foto queda en GitHub.)`)){D.PRODUCTS.splice(D.PRODUCTS.indexOf(p),1);setDirty(true);drawProd();}
+});
+$("#fi").onchange=async e=>{
+  if(!act||!e.target.files.length) return; const p=byId(act.id),files=[...e.target.files];
+  try{
+    if(act.a==="main"){const d=await jpg(files[0]);uploads[p.id+".jpg"]=d.split(",")[1];p.v=Date.now();p._src=d;}
+    else{p.fotos=p.fotos||[];p._pv=p._pv||{};for(const f of files){const d=await jpg(f),name=p.id+"_"+Date.now().toString(36)+Math.random().toString(36).slice(2,4)+".jpg";uploads[name]=d.split(",")[1];p.fotos.push(name);p._pv[name]=d;}}
+    setDirty(true);const row=document.querySelector(`.it[data-id="${p.id}"]`);if(row){const op=row.querySelector("details").open;row.outerHTML=rowHtml(p);if(op)document.querySelector(`.it[data-id="${p.id}"] details`).open=true;}
+  }catch(err){msg(errText(err),true);} act=null;
+};
+
+/* ---------- ajustes ---------- */
+function drawAj(){
+  const P=D.PRECIO_CAT;
+  $("#va").innerHTML=`<div class="box"><h3>Datos generales</h3><div class="g2">
+   <label>WhatsApp (con código de país, sin +)<input data-s="WHATSAPP" value="${esc(D.WHATSAPP)}"></label>
+   <label>Seña obligatoria (%)<input data-s="SENA" type="number" min="0" max="100" value="${D.SENA}"></label>
+   <label>Descuento en efectivo (%)<input data-s="DESC" type="number" min="0" max="100" value="${D.DESC}"></label></div>
+   <label>Aviso sobre el envío (vacío = no se muestra)<input data-s="ENVIO" value="${esc(D.ENVIO)}"></label></div>
+  <div class="box"><h3>Precio por categoría</h3><p style="margin:0;color:var(--mut);font-size:12px">Se aplica a los productos que no tienen precio propio.</p><div class="g2">
+   ${D.CATS.map(c=>`<label>${esc(c.t)}<input data-pc="${c.k}" type="number" min="0" value="${P[c.k]??""}"></label>`).join("")}</div></div>
+  <div class="box"><h3>Puntos de entrega</h3><div id="pts">${D.PUNTOS.map((x,i)=>`<div class="pt"><label>Nombre<input data-pi="${i}" data-pf="n" value="${esc(x.n)}"></label><label>Dirección<input data-pi="${i}" data-pf="d" value="${esc(x.d)}"></label><label>Horarios<input data-pi="${i}" data-pf="h" value="${esc(x.h||"")}"></label><button class="mini" data-rp="${i}">Quitar</button></div>`).join("")}</div>
+   <button class="mini" id="addp" style="margin-top:8px">+ Agregar punto</button></div>`;
+}
+$("#va").addEventListener("input",e=>{
+  const t=e.target; if(t.dataset.s){const k=t.dataset.s;D[k]=(k==="SENA"||k==="DESC")?Math.max(0,+t.value||0):t.value;}
+  else if(t.dataset.pc){D.PRECIO_CAT[t.dataset.pc]=t.value===""?null:Math.max(0,+t.value);}
+  else if(t.dataset.pi!==undefined){const x=D.PUNTOS[+t.dataset.pi];x[t.dataset.pf]=t.value;if(!t.value&&t.dataset.pf==="h")delete x.h;}
+  setDirty(true);
+});
+$("#va").addEventListener("click",e=>{
+  if(e.target.id==="addp"){D.PUNTOS.push({n:"",d:""});setDirty(true);drawAj();}
+  const r=e.target.dataset.rp; if(r!==undefined){D.PUNTOS.splice(+r,1);setDirty(true);drawAj();}
+});
+
+/* ---------- guardar ---------- */
+const line=p=>JSON.stringify(Object.fromEntries(Object.entries(p).filter(([k,v])=>k[0]!=="_"&&v!==undefined&&v!==""&&v!==false&&!(Array.isArray(v)&&!v.length))));
+function build(t){
+  const miss=[],sub=(re,s,n)=>{if(re.test(t))t=t.replace(re,()=>s);else miss.push(n);};
+  sub(/const PRODUCTS = \[[\s\S]*?\n\];/,"const PRODUCTS = [\n"+D.PRODUCTS.map(line).join(",\n")+"\n];","productos");
+  sub(/const WHATSAPP = "[^"]*";/,"const WHATSAPP = "+JSON.stringify(String(D.WHATSAPP).replace(/\D/g,""))+";","WhatsApp");
+  sub(/const SENA = [^;\n]*;/,"const SENA = "+(+D.SENA||0)+";","seña");
+  sub(/const DESC_EFECTIVO = [^;\n]*;/,"const DESC_EFECTIVO = "+(+D.DESC||0)+";","descuento");
+  sub(/const ENVIO_CLIENTE = "(?:[^"\\]|\\.)*";/,"const ENVIO_CLIENTE = "+JSON.stringify(D.ENVIO)+";","aviso de envío");
+  sub(/const PRECIO_CAT = \{[^}]*\};/,"const PRECIO_CAT = {"+D.CATS.map(c=>c.k+":"+(D.PRECIO_CAT[c.k]==null?"null":D.PRECIO_CAT[c.k])).join(", ")+"};","precios por categoría");
+  sub(/const PUNTOS = \[[\s\S]*?\n\];/,"const PUNTOS = [\n"+D.PUNTOS.filter(x=>x.n||x.d).map(x=>"  "+JSON.stringify(x)).join(",\n")+"\n];","puntos de entrega");
+  return {t,miss};
+}
+$("#bsv").onclick=async()=>{
+  if(!cfg) return msg("Primero conectá tu repositorio (arriba).",true);
+  const b=$("#bsv"); b.disabled=true;
+  try{
+    const paths=Object.keys(uploads); let i=0;
+    for(const path of paths){
+      msg(`Subiendo foto ${++i} de ${paths.length}…`);
+      const cur=await gh(path,{soft:1});
+      await gh(path,{method:"PUT",body:{message:"Admin: foto "+path,content:uploads[path],...(cur?{sha:cur.sha}:{})}});
+      delete uploads[path];
+    }
+    msg("Guardando datos…");
+    const f=await gh("productos.js"),r=build(dec(f.content));
+    await gh("productos.js",{method:"PUT",body:{message:"Admin: actualiza productos y ajustes",content:enc(r.t),sha:f.sha}});
+    base=r.t;setDirty(false);
+    msg("Guardado ✓ En 1 o 2 minutos se ve en tu página (refrescá con Ctrl+Shift+R)."+(r.miss.length?" Atención: no pude actualizar "+r.miss.join(", ")+" (no encontré esa línea en productos.js).":""),!!r.miss.length);
+  }catch(e){msg(errText(e),true);}
+  b.disabled=false;
+};
+$("#bdl").onclick=()=>{
+  if(!D) return; const r=build(base);
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([r.t],{type:"text/javascript"}));a.download="productos.js";a.click();
+  msg(Object.keys(uploads).length?"Descargado. Ojo: las fotos nuevas solo se suben con el botón Guardar (necesita conexión).":"Descargado. Reemplazá productos.js en GitHub.");
+};
+
+/* ---------- pestañas ---------- */
+function render(){drawProd();drawAj();}
+document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  $("#vp").style.display=b.dataset.t==="prod"?"":"none";$("#va").style.display=b.dataset.t==="aj"?"":"none";
+});
+addEventListener("beforeunload",e=>{if(dirty||Object.keys(uploads).length){e.preventDefault();e.returnValue="";}});
+drawConn();load();
+</script></body></html>
