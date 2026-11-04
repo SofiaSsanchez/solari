@@ -16,7 +16,7 @@ const ENVIO_CLIENTE = "Una vez finalizada la compra, se coordina por Whatsapp de
  
 /* Precio por categoría: se usa para todos los productos de esa categoría que NO tengan su propio "p".
    Ej: aros: 6500. Dejá null si todavía no tenés precio. */
-const PRECIO_CAT = {chockers:8000, cadenitas:11000, collares:17000, piedras:8000, aros:6000, pulseras:5000, llaveros:10000, anillos:3000};
+const PRECIO_CAT = {chockers:8000, cadenitas:11000, collares:17000, piedras:8000, aros:6000, pulseras:5000, llaveros:10000, anillos:3000, hilo:10000};
  
 /* Puntos de entrega en La Plata (se muestran en el Inicio). n = nombre, d = dirección/zona, h = días y horarios (opcional).
    Si dejás la lista vacía [], la sección no se muestra. */
@@ -39,6 +39,7 @@ const PUNTOS = [
    {"id":"cho01","cat":"chockers","n":"Choker cruz gótica roja","p":null,"s":1,"fotos":["cho01_2.jpg","cho01_3.jpg"],"desc":"Escribí acá la descripción.","med":"Medidas"},
 */
 const PRODUCTS = [
+{"id":"hil01","cat":"hilo","n":"Nombre del collar","p":null,"s":1},
 {"id":"cho01","cat":"chockers","n":"Choker cruz gótica roja","p":null,"s":1},
 {"id":"cho02","cat":"chockers","n":"Choker luna creciente","p":null,"s":1},
 {"id":"cho03","cat":"chockers","n":"Choker corazón de púas","p":null,"s":1},
@@ -164,6 +165,13 @@ const CATS = [
   "t": "Collares",
   "d": "hechos a mano de acero quirúrgico"
  },
+
+  {
+  "k": "hilo",
+  "t": "Collares con hilo",
+  "d": ""
+ },
+  
  {
   "k": "piedras",
   "t": "Collares con piedras o perlas",
