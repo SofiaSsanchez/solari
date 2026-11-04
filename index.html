@@ -219,7 +219,7 @@ html.hc-down #cs b{transform:scale(.8)}
  
 <script src="productos.js"></script>
 <script>
-const IMG = new Proxy({}, {get:(_,id)=>`${id}.jpg`});
+const IMG = new Proxy({}, {get:(_,id)=>{const p=PRODUCTS.find(x=>x.id===id);return `${id}.jpg`+(p&&p.v?`?v=${p.v}`:"");}});
 const D = window.DECOR||{};
 let cart = {}, cat = "inicio", step = 0, pago = null, ent = null, direccion = "", nombreCliente = "";
 try { cart = JSON.parse(localStorage.getItem("solari_cart") || "{}"); } catch(e){}
