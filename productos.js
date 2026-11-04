@@ -21,12 +21,12 @@ const PRECIO_CAT = {chockers:8000, cadenitas:11000, collares:17000, piedras:8000
 /* Puntos de entrega en La Plata (se muestran en el Inicio). n = nombre, d = dirección/zona, h = días y horarios (opcional).
    Si dejás la lista vacía [], la sección no se muestra. */
 const PUNTOS = [
-  {n:"Plaza Rocha", d:"7 y 60, La Plata"},
-  {n:"Plaza San Martin", d:"6 y 54, La Plata"},
-  {n:"Plaza Moreno", d:"12 y 54, La Plata"},
-  {n:"Plaza Azcuénaga", d:"19 y 44, La Plata"},
-  {n:"Parque Alberti", d:"25 y 38, La Plata"},
-  {n:"Estación de tren", d:"1 y 44, La Plata"}
+  {"n":"Plaza Rocha","d":"7 y 60, La Plata"},
+  {"n":"Plaza San Martin","d":"6 y 54, La Plata"},
+  {"n":"Plaza Moreno","d":"12 y 54, La Plata"},
+  {"n":"Plaza Azcuénaga","d":"19 y 44, La Plata"},
+  {"n":"Parque Alberti","d":"25 y 38, La Plata"},
+  {"n":"Estación de tren","d":"1 y 44, La Plata"}
 ];
  
 /* Productos: id, cat, n = nombre, p = precio propio (número; si es null usa el de la categoría), s = stock (0 = agotado), off:true = ocultar
@@ -56,8 +56,8 @@ const PRODUCTS = [
 {"id":"cad08","cat":"cadenitas","n":"Cadenita corazón rojo con rayos","p":null,"s":5},
 {"id":"cad09","cat":"cadenitas","n":"Cadenita corazón rojo con púas","p":null,"s":3},
 {"id":"cad10","cat":"cadenitas","n":"Cadenita corazón rojo con alitas","p":null,"s":2},
-{"id":"cad11","cat":"cadenitas","n":"Cadenita corazón blanco con alitas negras","p":null,"s":1, "desc":"Cadena de aleación esmaltada."},
-{"id":"cad12","cat":"cadenitas","n":"Cadenita corazón negro con alitas negras","p":null,"s":1, "desc":"Cadena de aleación esmaltada."},
+{"id":"cad11","cat":"cadenitas","n":"Cadenita corazón blanco con alitas negras","p":null,"s":1,"desc":"Cadena de aleación esmaltada."},
+{"id":"cad12","cat":"cadenitas","n":"Cadenita corazón negro con alitas negras","p":null,"s":1,"desc":"Cadena de aleación esmaltada."},
 {"id":"cad13","cat":"cadenitas","n":"Cadenita murciélago rojo","p":null,"s":1},
 {"id":"cad14","cat":"cadenitas","n":"Cadenita murciélago negro","p":null,"s":1},
 {"id":"cad15","cat":"cadenitas","n":"Cadenita polilla","p":null,"s":3},
@@ -66,12 +66,12 @@ const PRODUCTS = [
 {"id":"cad18","cat":"cadenitas","n":"Cadenita estrella con corazón rojo","p":null,"s":3},
 {"id":"cad19","cat":"cadenitas","n":"Cadenita corazón de espinas negro","p":null,"s":4},
 {"id":"cad20","cat":"cadenitas","n":"Cadenita colgante catedral gótica","p":null,"s":3},
-{"id":"col01","cat":"collares","n":"Collar camafeo negro de murciélago","p":22000,"s":3},
+{"id":"col01","cat":"collares","n":"Collar camafeo negro de murciélago","p":21900,"s":3},
 {"id":"col02","cat":"collares","n":"Collar de gotas rojas colgantes","p":22000,"s":3},
 {"id":"col03","cat":"collares","n":"Collar corazón de espinas con púas","p":null,"s":3},
 {"id":"col04","cat":"collares","n":"Collar de malla con corazón rojo","p":null,"s":3},
 {"id":"col05","cat":"collares","n":"Collar corazón negro con púas","p":null,"s":7},
-{"id":"col06","cat":"collares","n":"Collar pentagrama","p":5000,"s":1, "desc":"Cadena de niquel."},
+{"id":"col06","cat":"collares","n":"Collar pentagrama","p":5000,"s":1,"desc":"Cadena de niquel."},
 {"id":"col07","cat":"collares","n":"Collar cadenas con gotas rojas","p":null,"s":3},
 {"id":"col08","cat":"collares","n":"Collar rosas con cadenas","p":null,"s":8},
 {"id":"col09","cat":"collares","n":"Collar corazón violeta con cruz y púas","p":null,"s":1},
