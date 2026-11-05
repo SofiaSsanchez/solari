@@ -50,7 +50,7 @@ input[type=checkbox]{width:auto;margin:0 6px 0 0}
 @media(max-width:560px){.pt{grid-template-columns:1fr}.it{grid-template-columns:76px 1fr}.ph img{width:76px;height:76px}}
 </style></head><body>
 <div class="bar"><h1>SOLARI · ADMIN</h1>
- <div class="bt"><span class="dot" id="dot">● Cambios sin guardar</span>
+ <div class="bt"><button id="bst" style="display:none" title="Abrir o cerrar la tienda"></button><span class="dot" id="dot">● Cambios sin guardar</span>
  <button id="bdl" title="Descarga productos.js actualizado">Descargar productos.js</button>
  <button class="p" id="bsv">Guardar cambios</button></div></div>
 <div class="wrap">
@@ -82,7 +82,11 @@ async function gh(path,o={}){
 }
 function parse(t){return new Function(t+`;return {PRODUCTS,CATS,WHATSAPP,
  SENA:typeof SENA!=="undefined"?SENA:0, DESC:typeof DESC_EFECTIVO!=="undefined"?DESC_EFECTIVO:0,
- ENVIO:typeof ENVIO_CLIENTE!=="undefined"?ENVIO_CLIENTE:"", PRECIO_CAT:typeof PRECIO_CAT!=="undefined"?PRECIO_CAT:{}, PUNTOS:typeof PUNTOS!=="undefined"?PUNTOS:[]}`)();}
+ ENVIO:typeof ENVIO_CLIENTE!=="undefined"?ENVIO_CLIENTE:"",
+ TIENDA:typeof TIENDA_ABIERTA!=="undefined"?TIENDA_ABIERTA!==false:true,
+ CT:typeof CIERRE_TITULO!=="undefined"?CIERRE_TITULO:"Tienda cerrada por el momento",
+ CX:typeof CIERRE_TEXTO!=="undefined"?CIERRE_TEXTO:"Por ahora no estoy tomando pedidos. Mientras tanto, mirá algunas de mis piezas y seguime en Instagram para enterarte cuándo vuelvo a abrir.",
+ CR:typeof CIERRE_REABRE!=="undefined"?CIERRE_REABRE:"", PRECIO_CAT:typeof PRECIO_CAT!=="undefined"?PRECIO_CAT:{}, PUNTOS:typeof PUNTOS!=="undefined"?PUNTOS:[]}`)();}
 function jpg(file,max=1200){return new Promise((ok,no)=>{const im=new Image();im.onload=()=>{const k=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(im.src);ok(c.toDataURL("image/jpeg",.86));};im.onerror=()=>no(new Error("No pude leer esa imagen"));im.src=URL.createObjectURL(file);});}
 
 /* ---------- conexión ---------- */
@@ -189,7 +193,13 @@ $("#fi").onchange=async e=>{
 /* ---------- ajustes ---------- */
 function drawAj(){
   const P=D.PRECIO_CAT;
-  $("#va").innerHTML=`<div class="box"><h3>Datos generales</h3><div class="g2">
+  $("#va").innerHTML=`<div class="box"><h3>Estado de la tienda</h3>
+   <label class="ck" style="margin-top:6px!important"><input type="checkbox" data-s="TIENDA" ${D.TIENDA?"checked":""}>Tienda abierta (destildá para cerrarla)</label>
+   <p style="margin:6px 0 0;color:var(--mut);font-size:12px">Cuando está cerrada, la página muestra un carrusel de fotos, este mensaje y tu Instagram, y no se puede comprar.</p>
+   <label>Título cuando está cerrada<input data-s="CT" value="${esc(D.CT)}"></label>
+   <label>Mensaje<textarea data-s="CX" rows="3">${esc(D.CX)}</textarea></label>
+   <label>Fecha de reapertura (opcional)<input data-s="CR" value="${esc(D.CR)}" placeholder="Ej: Reabrimos el 15 de noviembre"></label></div>
+  <div class="box"><h3>Datos generales</h3><div class="g2">
    <label>WhatsApp (con código de país, sin +)<input data-s="WHATSAPP" value="${esc(D.WHATSAPP)}"></label>
    <label>Seña obligatoria (%)<input data-s="SENA" type="number" min="0" max="100" value="${D.SENA}"></label>
    <label>Descuento en efectivo (%)<input data-s="DESC" type="number" min="0" max="100" value="${D.DESC}"></label></div>
@@ -200,7 +210,7 @@ function drawAj(){
    <button class="mini" id="addp" style="margin-top:8px">+ Agregar punto</button></div>`;
 }
 $("#va").addEventListener("input",e=>{
-  const t=e.target; if(t.dataset.s){const k=t.dataset.s;D[k]=(k==="SENA"||k==="DESC")?Math.max(0,+t.value||0):t.value;}
+  const t=e.target; if(t.dataset.s){const k=t.dataset.s;D[k]=k==="TIENDA"?t.checked:(k==="SENA"||k==="DESC")?Math.max(0,+t.value||0):t.value;if(k==="TIENDA")drawSt();}
   else if(t.dataset.pc){D.PRECIO_CAT[t.dataset.pc]=t.value===""?null:Math.max(0,+t.value);}
   else if(t.dataset.pi!==undefined){const x=D.PUNTOS[+t.dataset.pi];x[t.dataset.pf]=t.value;if(!t.value&&t.dataset.pf==="h")delete x.h;}
   setDirty(true);
@@ -221,6 +231,12 @@ function build(t){
   sub(/const ENVIO_CLIENTE = "(?:[^"\\]|\\.)*";/,"const ENVIO_CLIENTE = "+JSON.stringify(D.ENVIO)+";","aviso de envío");
   sub(/const PRECIO_CAT = \{[^}]*\};/,"const PRECIO_CAT = {"+D.CATS.map(c=>c.k+":"+(D.PRECIO_CAT[c.k]==null?"null":D.PRECIO_CAT[c.k])).join(", ")+"};","precios por categoría");
   sub(/const PUNTOS = \[[\s\S]*?\n\];/,"const PUNTOS = [\n"+D.PUNTOS.filter(x=>x.n||x.d).map(x=>"  "+JSON.stringify(x)).join(",\n")+"\n];","puntos de entrega");
+  const put=(name,re,ln)=>{if(re.test(t))t=t.replace(re,()=>ln);else if(new RegExp("const "+name+"\\b").test(t))miss.push(name);else t=t.replace(/\s*$/,"\n")+ln+"\n";};
+  const S='(?:"(?:[^"\\\\]|\\\\.)*"|\'(?:[^\'\\\\]|\\\\.)*\'|`[^`]*`)';
+  put("TIENDA_ABIERTA",/const TIENDA_ABIERTA\s*=\s*[^;\n]*;/,"const TIENDA_ABIERTA = "+(D.TIENDA?"true":"false")+";   // true = abierta · false = cerrada");
+  put("CIERRE_TITULO",new RegExp("const CIERRE_TITULO\\s*=\\s*"+S+"\\s*;"),"const CIERRE_TITULO = "+JSON.stringify(D.CT)+";");
+  put("CIERRE_TEXTO",new RegExp("const CIERRE_TEXTO\\s*=\\s*"+S+"\\s*;"),"const CIERRE_TEXTO = "+JSON.stringify(D.CX)+";");
+  put("CIERRE_REABRE",new RegExp("const CIERRE_REABRE\\s*=\\s*"+S+"\\s*;"),"const CIERRE_REABRE = "+JSON.stringify(D.CR)+";");
   return {t,miss};
 }
 $("#bsv").onclick=async()=>{
@@ -249,7 +265,9 @@ $("#bdl").onclick=()=>{
 };
 
 /* ---------- pestañas ---------- */
-function render(){drawProd();drawAj();}
+function drawSt(){const b=$("#bst");if(!D)return;b.style.display="";b.textContent=D.TIENDA?"● Tienda abierta":"● Tienda cerrada";b.style.color=b.style.borderColor=D.TIENDA?"#7bc48a":"#e0796b";}
+$("#bst").onclick=()=>{D.TIENDA=!D.TIENDA;setDirty(true);drawSt();drawAj();msg(D.TIENDA?'La tienda quedará ABIERTA. Tocá "Guardar cambios" para aplicarlo.':'La tienda quedará CERRADA. Tocá "Guardar cambios" para aplicarlo.');};
+function render(){drawProd();drawAj();drawSt();}
 document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x===b));
   $("#vp").style.display=b.dataset.t==="prod"?"":"none";$("#va").style.display=b.dataset.t==="aj"?"":"none";
