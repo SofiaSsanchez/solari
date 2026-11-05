@@ -16,7 +16,7 @@ const ENVIO_CLIENTE = "Una vez finalizada la compra, se coordina por Whatsapp de
  
 /* Precio por categoría: se usa para todos los productos de esa categoría que NO tengan su propio "p".
    Ej: aros: 6500. Dejá null si todavía no tenés precio. */
-const PRECIO_CAT = {chockers:8000, cadenitas:11000, collares:17000, piedras:8000, aros:6000, pulseras:5000, llaveros:10000, anillos:3000, hilo:10000};
+const PRECIO_CAT = {chockers:8000, cadenitas:11000, collares:17000, hilo:10000, piedras:8000, aros:6000, pulseras:5000, llaveros:10000, anillos:3000};
  
 /* Puntos de entrega en La Plata (se muestran en el Inicio). n = nombre, d = dirección/zona, h = días y horarios (opcional).
    Si dejás la lista vacía [], la sección no se muestra. */
@@ -198,4 +198,7 @@ const CATS = [
   "d": "de acero quirúrgico"
  }
 ];
- 
+const TIENDA_ABIERTA = false;   // true = abierta · false = cerrada
+const CIERRE_TITULO = "Tienda cerrada por el momento";
+const CIERRE_TEXTO = "Por ahora no estoy tomando pedidos. Mientras tanto, mirá algunas de mis piezas y seguime en Instagram para enterarte cuándo vuelvo a abrir.";
+const CIERRE_REABRE = "";
