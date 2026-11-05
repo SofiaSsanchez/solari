@@ -26,9 +26,7 @@
   .cz-row.r .cz-track{animation-direction:reverse}
   @keyframes czm{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   .cz-i{position:relative;flex:none;margin:0 12px 0 0;width:clamp(128px,34vw,190px);aspect-ratio:1/1;border:1px solid var(--gold);background:#000;overflow:hidden;box-shadow:0 0 22px rgba(166,138,91,.16)}
-  .cz-i img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
-  .cz-i figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 8px 8px;background:linear-gradient(transparent,rgba(0,0,0,.88));font:500 9.5px Montserrat,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);opacity:0;transition:opacity .3s}
-  @media(hover:hover){.cz-strip:hover .cz-track{animation-play-state:paused}.cz-i:hover img{transform:scale(1.08)}.cz-i:hover figcaption{opacity:1}}
+  .cz-i img{width:100%;height:100%;object-fit:cover;display:block}
   @media(prefers-reduced-motion:reduce){.cz-strip{-webkit-mask-image:none;mask-image:none}.cz-row{overflow-x:auto}.cz-track{animation:none!important}}
   #cierre .cz-s{font:500 12px Montserrat,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--gold2);margin:0 0 12px}
   #cierre .cz-f{font-size:12px;color:var(--mut);margin:20px auto 0;max-width:420px}`;
@@ -40,7 +38,7 @@
   for (let i = lista.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [lista[i], lista[j]] = [lista[j], lista[i]]; }
   const pick = lista.slice(0, FOTOS), mid = Math.ceil(pick.length / 2);
   const fila1 = pick.slice(0, mid), fila2 = pick.slice(mid).reverse();
-  const tiles = arr => arr.map(p => `<figure class="cz-i"><img src="${esc(src(p))}" alt="${esc(p.n)}" loading="eager"><figcaption>${esc(p.n)}</figcaption></figure>`).join("");
+  const tiles = arr => arr.map(p => `<figure class="cz-i"><img src="${esc(src(p))}" alt="${esc(p.n)}" loading="eager"></figure>`).join("");
 
   const sec = document.createElement("section");
   sec.id = "cierre";
