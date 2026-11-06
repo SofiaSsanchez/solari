@@ -47,8 +47,8 @@ const PRODUCTS = [
 {"id":"cho05","cat":"chockers","n":"Choker corazón negro con rayos","p":null,"s":1},
 {"id":"cho06","cat":"chockers","n":"Choker araña","p":null,"s":1},
 {"id":"cho07","cat":"chockers","n":"Choker telaraña","p":null,"s":1},
-{"id":"cad01","cat":"cadenitas","n":"Cadenita corazón de espinas rojo","p":null,"s":3},
-{"id":"cad02","cat":"cadenitas","n":"Cadenita cruz gótica roja","p":null,"s":2},
+{"id":"cad01","cat":"cadenitas","n":"Cadenita corazón de espinas rojo","p":null,"s":3,"v":1794000754107},
+{"id":"cad02","cat":"cadenitas","n":"Cadenita cruz gótica roja","p":null,"s":2,"v":1794001049130},
 {"id":"cad03","cat":"cadenitas","n":"Cadenita murciélago grande","p":null,"s":3},
 {"id":"cad04","cat":"cadenitas","n":"Cadenita cruz roja uniforme","p":null,"s":1},
 {"id":"cad05","cat":"cadenitas","n":"Cadenita cruz filigrana piedra roja","p":null,"s":2},
@@ -198,7 +198,7 @@ const CATS = [
   "d": "de acero quirúrgico"
  }
 ];
-const TIENDA_ABIERTA = true;   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada
+const TIENDA_ABIERTA = true;   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada
 const CIERRE_TITULO = "Tienda cerrada por el momento";
 const CIERRE_TEXTO = "Por ahora no estoy tomando pedidos. Mientras tanto, mirá algunas de mis piezas y seguime en Instagram para enterarte cuándo vuelvo a abrir.";
 const CIERRE_REABRE = "";
