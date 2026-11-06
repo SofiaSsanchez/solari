@@ -40,7 +40,7 @@ const PUNTOS = [
 */
 const PRODUCTS = [
 {"id":"hil01","cat":"hilo","n":"Nombre del collar","p":null,"s":1},
-{"id":"cho01","cat":"chockers","n":"Choker cruz gótica roja","p":null,"s":1},
+{"id":"cho01","cat":"chockers","n":"Choker cruz gótica roja","p":null,"s":1,"v":1794001503901},
 {"id":"cho02","cat":"chockers","n":"Choker luna creciente","p":null,"s":1},
 {"id":"cho03","cat":"chockers","n":"Choker corazón de púas","p":null,"s":1},
 {"id":"cho04","cat":"chockers","n":"Choker Saturno","p":null,"s":1},
@@ -49,13 +49,13 @@ const PRODUCTS = [
 {"id":"cho07","cat":"chockers","n":"Choker telaraña","p":null,"s":1},
 {"id":"cad01","cat":"cadenitas","n":"Cadenita corazón de espinas rojo","p":null,"s":3,"v":1794000754107},
 {"id":"cad02","cat":"cadenitas","n":"Cadenita cruz gótica roja","p":null,"s":2,"v":1794001049130},
-{"id":"cad03","cat":"cadenitas","n":"Cadenita murciélago grande","p":null,"s":3},
-{"id":"cad04","cat":"cadenitas","n":"Cadenita cruz roja uniforme","p":null,"s":1},
-{"id":"cad05","cat":"cadenitas","n":"Cadenita cruz filigrana piedra roja","p":null,"s":2},
-{"id":"cad06","cat":"cadenitas","n":"Cadenita cruz filigrana piedra negra","p":null,"s":2},
-{"id":"cad07","cat":"cadenitas","n":"Cadenita corazón negro con rayos","p":null,"s":5},
-{"id":"cad08","cat":"cadenitas","n":"Cadenita corazón rojo con rayos","p":null,"s":5},
-{"id":"cad09","cat":"cadenitas","n":"Cadenita corazón rojo con púas","p":null,"s":3},
+{"id":"cad03","cat":"cadenitas","n":"Cadenita murciélago grande","p":null,"s":3,"v":1794001121493},
+{"id":"cad04","cat":"cadenitas","n":"Cadenita cruz roja uniforme","p":null,"s":1,"v":1794001210871},
+{"id":"cad05","cat":"cadenitas","n":"Cadenita cruz filigrana piedra roja","p":null,"s":2,"v":1794001268727},
+{"id":"cad06","cat":"cadenitas","n":"Cadenita cruz filigrana piedra negra","p":null,"s":2,"v":1794001273227},
+{"id":"cad07","cat":"cadenitas","n":"Cadenita corazón negro con rayos","p":null,"s":5,"v":1794001331518},
+{"id":"cad08","cat":"cadenitas","n":"Cadenita corazón rojo con rayos","p":null,"s":5,"v":1794001340852},
+{"id":"cad09","cat":"cadenitas","n":"Cadenita corazón rojo con púas","p":null,"s":3,"v":1794001379615},
 {"id":"cad10","cat":"cadenitas","n":"Cadenita corazón rojo con alitas","p":null,"s":2},
 {"id":"cad11","cat":"cadenitas","n":"Cadenita corazón blanco con alitas negras","p":null,"s":1,"desc":"Cadena de aleación esmaltada."},
 {"id":"cad12","cat":"cadenitas","n":"Cadenita corazón negro con alitas negras","p":null,"s":1,"desc":"Cadena de aleación esmaltada."},
@@ -67,8 +67,8 @@ const PRODUCTS = [
 {"id":"cad18","cat":"cadenitas","n":"Cadenita estrella con corazón rojo","p":null,"s":3},
 {"id":"cad19","cat":"cadenitas","n":"Cadenita corazón de espinas negro","p":null,"s":4},
 {"id":"cad20","cat":"cadenitas","n":"Cadenita colgante catedral gótica","p":null,"s":3},
-{"id":"col01","cat":"collares","n":"Collar camafeo negro de murciélago","p":22000,"s":3},
-{"id":"col02","cat":"collares","n":"Collar de gotas rojas colgantes","p":22000,"s":1},
+{"id":"col01","cat":"collares","n":"Collar camafeo negro de murciélago","p":22000,"s":3,"v":1794001554141},
+{"id":"col02","cat":"collares","n":"Collar de gotas rojas colgantes","p":22000,"s":1,"v":1794001577736,"fotos":["col02_mw5i8pw46l.jpg","col02_mw5i8q1222.jpg","col02_mw5i8q6bk6.jpg"]},
 {"id":"col03","cat":"collares","n":"Collar corazón de espinas con púas","p":null,"s":3},
 {"id":"col04","cat":"collares","n":"Collar de malla con corazón rojo","p":null,"s":3},
 {"id":"col05","cat":"collares","n":"Collar corazón negro con púas","p":null,"s":7},
@@ -198,7 +198,7 @@ const CATS = [
   "d": "de acero quirúrgico"
  }
 ];
-const TIENDA_ABIERTA = true;   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada
+const TIENDA_ABIERTA = true;   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada
 const CIERRE_TITULO = "Tienda cerrada por el momento";
 const CIERRE_TEXTO = "Por ahora no estoy tomando pedidos. Mientras tanto, mirá algunas de mis piezas y seguime en Instagram para enterarte cuándo vuelvo a abrir.";
 const CIERRE_REABRE = "";
