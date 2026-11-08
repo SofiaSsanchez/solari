@@ -135,7 +135,7 @@ const PRODUCTS = [
 {"id":"ani10","cat":"anillos","n":"Anillo clavo negro","p":null,"s":1},
 {"id":"ani11","cat":"anillos","n":"Anillo hueso","p":4000,"s":1},
 {"id":"ani12","cat":"anillos","n":"Anillo clavo celeste","p":null,"s":1},
-{"id":"ani13","cat":"anillos","n":"Anillo estrella","p":null,"s":0},
+{"id":"ani13","cat":"anillos","n":"Anillo estrella","p":null,"s":0,"off":true},
 {"id":"ani14","cat":"anillos","n":"Anillo hexágono","p":null,"s":1},
 {"id":"ani15","cat":"anillos","n":"Anillo corazón trenzado","p":6000,"s":1},
 {"id":"ani16","cat":"anillos","n":"Anillo dorado clavo violeta","p":null,"s":1},
@@ -203,7 +203,7 @@ const CATS = [
   "d": "de acero quirúrgico"
  }
 ];
-const TIENDA_ABIERTA = true;   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada
+const TIENDA_ABIERTA = true;   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada
 const CIERRE_TITULO = "Tienda cerrada por el momento";
 const CIERRE_TEXTO = "Por ahora no estoy tomando pedidos. Mientras tanto, mirá algunas de mis piezas y seguime en Instagram para enterarte cuándo vuelvo a abrir.";
 const CIERRE_REABRE = "";
