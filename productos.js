@@ -117,12 +117,12 @@ const PRODUCTS = [
 {"id":"aro24","cat":"aros","n":"Aros cruz","p":6000,"s":1},
 {"id":"aro25","cat":"aros","n":"Aros espiral","p":6000,"s":1},
 {"id":"aro26","cat":"aros","n":"Argollas corazón tribal","p":8000,"s":4},
-{"id":"pul01","cat":"pulseras","n":"Pulsera de hojitas de afeitar","p":null,"s":1,"v":1794002420487,"fotos":["pul01_mw5iq9a6z6.jpg"]},
-{"id":"pul02","cat":"pulseras","n":"Pulsera con corazón","p":null,"s":1,"v":1794002442275,"fotos":["pul02_mw5iqjuqaw.jpg"]},
-{"id":"pul03","cat":"pulseras","n":"Pulsera de bolitas con corazones de colores","p":null,"s":1},
-{"id":"pul04","cat":"pulseras","n":"Pulsera dorada con esqueleto","p":null,"s":1},
-{"id":"lla01","cat":"llaveros","n":"Llavero flor","p":null,"s":1},
-{"id":"lla02","cat":"llaveros","n":"Llavero estrella con púas","p":null,"s":1},
+{"id":"pul01","cat":"pulseras","n":"Pulsera de hojitas de afeitar","p":5000,"s":0,"v":1794002420487,"fotos":["pul01_mw5iq9a6z6.jpg"],"off":true},
+{"id":"pul02","cat":"pulseras","n":"Pulsera con corazón","p":5000,"s":1,"v":1794002442275,"fotos":["pul02_mw5iqjuqaw.jpg"]},
+{"id":"pul03","cat":"pulseras","n":"Pulsera de bolitas con corazones de colores","p":5000,"s":1},
+{"id":"pul04","cat":"pulseras","n":"Pulsera dorada con esqueleto","p":5000,"s":1},
+{"id":"lla01","cat":"llaveros","n":"Llavero flor","p":10000,"s":1},
+{"id":"lla02","cat":"llaveros","n":"Llavero estrella con púas","p":10000,"s":1},
 {"id":"ani01","cat":"anillos","n":"Anillo trenzado calado","p":null,"s":1},
 {"id":"ani02","cat":"anillos","n":"Anillo nudo de bruja talle 21","p":null,"s":2},
 {"id":"ani03","cat":"anillos","n":"Anillo de corazones calados","p":null,"s":1},
@@ -203,7 +203,7 @@ const CATS = [
   "d": "de acero quirúrgico"
  }
 ];
-const TIENDA_ABIERTA = true;   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada
+const TIENDA_ABIERTA = true;   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada
 const CIERRE_TITULO = "Tienda cerrada por el momento";
 const CIERRE_TEXTO = "Por ahora no estoy tomando pedidos. Mientras tanto, mirá algunas de mis piezas y seguime en Instagram para enterarte cuándo vuelvo a abrir.";
 const CIERRE_REABRE = "";
