@@ -67,7 +67,7 @@ const PRODUCTS = [
 {"id":"cad18","cat":"cadenitas","n":"Cadenita estrella con corazón rojo","p":null,"s":3},
 {"id":"cad19","cat":"cadenitas","n":"Cadenita corazón de espinas negro","p":null,"s":4},
 {"id":"cad20","cat":"cadenitas","n":"Cadenita colgante catedral gótica","p":null,"s":3},
-{"id":"col01","cat":"collares","n":"Collar camafeo negro de murciélago","p":22000,"s":3,"v":1794001554141,"fotos":["col01_mw5icgn99j.jpg","col01_mw5icgri9q.jpg"]},
+{"id":"col01","cat":"collares","n":"Collar camafeo negro de murciélago","p":22000,"s":3,"v":1794102969623,"fotos":["col01_mw5icgn99j.jpg","col01_mw5icgri9q.jpg","col01_mw76ll7nkd.jpg"]},
 {"id":"col02","cat":"collares","n":"Collar de gotas rojas colgantes","p":22000,"s":1,"v":1794001577736,"fotos":["col02_mw5i8pw46l.jpg","col02_mw5i8q1222.jpg"]},
 {"id":"col03","cat":"collares","n":"Collar corazón de espinas con púas","p":17000,"s":3,"v":1794001996485,"fotos":["col03_mw5ih69xvd.jpg"]},
 {"id":"col04","cat":"collares","n":"Collar de malla con corazón rojo","p":17000,"s":3,"v":1794002104115,"fotos":["col04_mw5ijb5sx4.jpg"]},
@@ -199,7 +199,7 @@ const CATS = [
   "d": "de acero quirúrgico"
  }
 ];
-const TIENDA_ABIERTA = true;   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada
+const TIENDA_ABIERTA = true;   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada
 const CIERRE_TITULO = "Tienda cerrada por el momento";
 const CIERRE_TEXTO = "Por ahora no estoy tomando pedidos. Mientras tanto, mirá algunas de mis piezas y seguime en Instagram para enterarte cuándo vuelvo a abrir.";
 const CIERRE_REABRE = "";
