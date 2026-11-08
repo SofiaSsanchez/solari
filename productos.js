@@ -39,14 +39,14 @@ const PUNTOS = [
    {"id":"cho01","cat":"chockers","n":"Choker cruz gótica roja","p":null,"s":1,"fotos":["cho01_2.jpg","cho01_3.jpg"],"desc":"Escribí acá la descripción.","med":"Medidas"},
 */
 const PRODUCTS = [
-{"id":"hil01","cat":"hilo","n":"Nombre del collar","p":10000,"s":1,"v":1794103132409},
-{"id":"cho01","cat":"chockers","n":"Choker cruz gótica roja","p":null,"s":1,"v":1794001503901},
-{"id":"cho02","cat":"chockers","n":"Choker luna creciente","p":null,"s":1},
-{"id":"cho03","cat":"chockers","n":"Choker corazón de púas","p":null,"s":1},
-{"id":"cho04","cat":"chockers","n":"Choker Saturno","p":null,"s":1},
-{"id":"cho05","cat":"chockers","n":"Choker corazón negro con rayos","p":null,"s":1},
-{"id":"cho06","cat":"chockers","n":"Choker araña","p":null,"s":1},
-{"id":"cho07","cat":"chockers","n":"Choker telaraña","p":null,"s":1},
+{"id":"hil01","cat":"hilo","n":"collar hilo catedral gótica","p":10000,"s":1,"v":1794103132409},
+{"id":"cho01","cat":"chockers","n":"Choker cruz gótica roja","p":8000,"s":1,"v":1794001503901},
+{"id":"cho02","cat":"chockers","n":"Choker luna creciente","p":8000,"s":1},
+{"id":"cho03","cat":"chockers","n":"Choker corazón de púas","p":8000,"s":1},
+{"id":"cho04","cat":"chockers","n":"Choker Saturno","p":8000,"s":1},
+{"id":"cho05","cat":"chockers","n":"Choker corazón negro con rayos","p":8000,"s":1},
+{"id":"cho06","cat":"chockers","n":"Choker araña","p":8000,"s":1},
+{"id":"cho07","cat":"chockers","n":"Choker telaraña","p":8000,"s":1},
 {"id":"cad01","cat":"cadenitas","n":"Cadenita corazón de espinas rojo","p":11000,"s":3,"v":1794000754107},
 {"id":"cad02","cat":"cadenitas","n":"Cadenita cruz gótica roja","p":11000,"s":2,"v":1794001049130},
 {"id":"cad03","cat":"cadenitas","n":"Cadenita murciélago grande","p":11000,"s":3,"v":1794001121493},
@@ -147,7 +147,11 @@ const PRODUCTS = [
 {"id":"ani22","cat":"anillos","n":"Anillo rosé trenzado","p":null,"s":1},
 {"id":"ani23","cat":"anillos","n":"Anillo rosé de corazones","p":null,"s":1},
 {"id":"ani24","cat":"anillos","n":"Anillo dorado ondas","p":null,"s":1},
-{"id":"col21","cat":"collares","n":"collar cruz roja con púas","p":17000,"s":1,"v":1794102167144}
+{"id":"col21","cat":"collares","n":"collar cruz roja con púas","p":17000,"s":1,"v":1794102167144},
+{"id":"hil02","cat":"hilo","n":"collar hilo cruz negra","p":10000,"s":1,"v":1794103638909},
+{"id":"hil03","cat":"hilo","n":"collar hilo negro destello","p":10000,"s":1,"v":1794103697013},
+{"id":"hil04","cat":"hilo","n":"collar hilo corazón negro ","p":10000,"s":1,"v":1794103922322},
+{"id":"hil05","cat":"hilo","n":"collar hilo corazón negro con rayos","p":10000,"s":1,"v":1794104021458}
 ];
 /* ============================================= */
 const CATS = [
@@ -199,7 +203,7 @@ const CATS = [
   "d": "de acero quirúrgico"
  }
 ];
-const TIENDA_ABIERTA = true;   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada
+const TIENDA_ABIERTA = true;   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada   // true = abierta · false = cerrada
 const CIERRE_TITULO = "Tienda cerrada por el momento";
 const CIERRE_TEXTO = "Por ahora no estoy tomando pedidos. Mientras tanto, mirá algunas de mis piezas y seguime en Instagram para enterarte cuándo vuelvo a abrir.";
 const CIERRE_REABRE = "";
